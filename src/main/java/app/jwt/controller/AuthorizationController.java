@@ -10,13 +10,12 @@ import app.jwt.repository.UserRepository;
 import app.jwt.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +36,8 @@ public class AuthorizationController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody RequestJWT requestJWT, HttpServletResponse response) throws AuthenticationException {
+    public ResponseEntity<?> login(@RequestBody RequestJWT requestJWT) throws AuthenticationException {
+        log.info("Signing in user: " + requestJWT.getUsername());
         return ResponseEntity.ok(userService.login(requestJWT));
     }
 
@@ -54,5 +54,11 @@ public class AuthorizationController {
         userRole.setUser(user);
         user.setUserRoles(Collections.singletonList(userRole));
         userRepository.save(user);
+    }
+
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public void logout() {
+        userService.logout();
     }
 }

@@ -10,6 +10,7 @@ import com.auth0.jwt.JWT;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,8 +24,9 @@ import java.util.List;
 import static app.jwt.SecurityConstants.*;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -61,6 +63,15 @@ public class UserService {
         return userRoleRepository.findAllByUser_Id(userId);
     }
 
+
+    public void logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUsername(authentication.getName());
+        user.setIsLogged(false);
+        userRepository.save(user);
+        log.info("Log out user: " + authentication.getName());
+        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+    }
    /* public User createUser(JwtRequest request) {
         User newUser = new User();
         newUser.setUsername(request.getUsername());
