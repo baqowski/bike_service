@@ -49,6 +49,7 @@ public class AuthorizationController {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+        user.setEmail(userDTO.getEmail());
         UserRole userRole = new UserRole();
         userRole.setRole(role);
         userRole.setUser(user);

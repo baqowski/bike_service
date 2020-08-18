@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "user")
 public class UserRole {
 
     @Id
@@ -18,11 +20,11 @@ public class UserRole {
     private Long id;
 
     @ManyToOne
-    @JsonBackReference
+    /*@JsonBackReference*/
     private User user;
 
     @ManyToOne
-    @JsonBackReference
+    /*@JsonBackReference*/
     private Role role;
 
 }

@@ -1,7 +1,7 @@
 package app.jwt.entity;
 
+import app.core.entity.ShoppingBasket;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,11 +38,16 @@ public class User implements UserDetails, Serializable {
     @JsonIgnore
     private String password;
 
+    private String email;
+
     private Boolean isLogged;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+   /* @JsonManagedReference*/
     private List<UserRole> userRoles;
+
+    @OneToOne(mappedBy = "user")
+    private ShoppingBasket basket;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

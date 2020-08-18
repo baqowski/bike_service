@@ -7,9 +7,7 @@ import app.jwt.entity.UserRole;
 import app.jwt.repository.UserRepository;
 import app.jwt.repository.UserRoleRepository;
 import com.auth0.jwt.JWT;
-
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
