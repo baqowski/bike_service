@@ -7,14 +7,16 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Karol Bąk
  */
 @Entity
 @Data
-@ToString(exclude = "basket")
 @NoArgsConstructor
+@ToString(exclude = "shoppingBasketList")
 public class Product {
 
     @Id
@@ -25,11 +27,21 @@ public class Product {
 
     private BigDecimal price;
 
-    @ManyToOne
+    /*@ManyToOne
     @JsonIgnore
-    private ShoppingBasket basket;
+    private ShoppingBasket basket;*/
+
+    @ManyToMany(mappedBy = "products")
+    @JsonIgnore
+    private List<ShoppingBasket> shoppingBasketList = new ArrayList<>();
 
     public Product(BigDecimal price) {
         this.price = price;
+    }
+
+    public Product(String name, BigDecimal price) {
+        this.name = name;
+        this.price = price;
+        this.shoppingBasketList = new ArrayList<>();
     }
 }

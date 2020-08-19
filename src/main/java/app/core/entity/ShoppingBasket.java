@@ -1,14 +1,13 @@
 package app.core.entity;
-import app.core.entity.Product;
+
 import app.jwt.entity.User;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Karol Bąk
@@ -16,7 +15,6 @@ import java.util.stream.Collectors;
 
 @Entity
 @Data
-@NoArgsConstructor
 @ToString(exclude = "user")
 public class ShoppingBasket {
 
@@ -26,7 +24,17 @@ public class ShoppingBasket {
 
     private BigDecimal amount;
 
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    /* @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+     private List<Product> products;*/
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(
+            name = "shopping_basket_product",
+            joinColumns = @JoinColumn(name = "shopping_basket_it"),
+            inverseJoinColumns = @JoinColumn (name = "product_id")
+    )
     private List<Product> products;
 
     @OneToOne
@@ -34,5 +42,9 @@ public class ShoppingBasket {
 
     public void updateAmount() {
         setAmount(this.products.stream().map(Product::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add));
+    }
+
+    public ShoppingBasket() {
+        this.products = new ArrayList<>();
     }
 }

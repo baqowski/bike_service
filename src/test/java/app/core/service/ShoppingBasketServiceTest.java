@@ -1,8 +1,8 @@
 package app.core.service;
 
 import app.bike_app.BikeAppApplicationTests;
-import app.core.entity.ShoppingBasket;
 import app.core.entity.Product;
+import app.core.entity.ShoppingBasket;
 import app.core.repository.ProductRepository;
 import app.core.repository.ShoppingBasketRepository;
 import app.jwt.entity.Role;
@@ -16,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -44,10 +43,11 @@ class ShoppingBasketServiceTest extends BikeAppApplicationTests {
     @Autowired
     private ProductRepository productRepository;
 
+    private ShoppingBasket shoppingBasket;
     @BeforeEach
     void setUp() {
         System.out.println("test");
-        /*user();*/
+        shoppingBasket = shoppingBasket();
     }
 
     @AfterEach
@@ -69,13 +69,7 @@ class ShoppingBasketServiceTest extends BikeAppApplicationTests {
     @Transactional
     @Test
     public void shouldAddProductToBasket() {
-        Product product = new Product();
-        product.setName("Rower");
-        ShoppingBasket shoppingBasket = shoppingBasketRepository.findByUser_Username("username");
-        product.setBasket(shoppingBasket);
-        productRepository.save(product);
-        /*shoppingBasket.getProducts().add(product);
-        shoppingBasketRepository.save(shoppingBasket);*/
+        shoppingBasketService.addProductToShoppingBasket(1L);
         System.out.println("test");
     }
 
@@ -104,5 +98,18 @@ class ShoppingBasketServiceTest extends BikeAppApplicationTests {
         Role role = new Role();
         role.setName("ROLE_USER");
         return roleRepository.save(role);
+    }
+
+    private ShoppingBasket shoppingBasket() {
+        ShoppingBasket shoppingBasket = new ShoppingBasket();
+        shoppingBasket.getProducts().add(product("Rama", BigDecimal.valueOf(109.99)));
+        shoppingBasket.getProducts().add(product("Koło", BigDecimal.valueOf(39.99)));
+        return shoppingBasketRepository.save(shoppingBasket);
+    }
+
+    private Product product(String name, BigDecimal price) {
+        Product product = new Product(name, price);
+        return productRepository.save(product);
+
     }
 }

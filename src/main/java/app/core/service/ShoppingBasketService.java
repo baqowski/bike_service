@@ -2,7 +2,6 @@ package app.core.service;
 
 import app.core.entity.Product;
 import app.core.entity.ShoppingBasket;
-import app.core.entity.dto.ProductDTO;
 import app.core.repository.ProductRepository;
 import app.core.repository.ShoppingBasketRepository;
 import app.jwt.entity.User;
@@ -38,15 +37,11 @@ public class ShoppingBasketService {
         return shoppingBasketRepository.findByUser_Username(username).getProducts();
     }
 
-    public Product addProductToBasket(ProductDTO productDTO) {
+    public void addProductToShoppingBasket(Long productId) {
         ShoppingBasket shoppingBasket = shoppingBasketRepository.findByUser_Username(SecurityContextHolder.getContext().getAuthentication().getName());
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        product.setBasket(shoppingBasket);
-        productRepository.save(product);
+        Product product = productRepository.findById(productId).get();
+        shoppingBasket.getProducts().add(product);
         shoppingBasket.updateAmount();
         shoppingBasketRepository.save(shoppingBasket);
-        return product;
     }
 }
