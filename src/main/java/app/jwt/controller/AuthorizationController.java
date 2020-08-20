@@ -31,9 +31,6 @@ import java.util.Collections;
 public class AuthorizationController {
 
     private final UserService userService;
-    private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody RequestJWT requestJWT) throws AuthenticationException {
@@ -44,17 +41,8 @@ public class AuthorizationController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerUser(@RequestBody UserDTO userDTO) {
-        // Creating user's account
-        Role role = roleRepository.findByName("ROLE_USER");
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        user.setEmail(userDTO.getEmail());
-        UserRole userRole = new UserRole();
-        userRole.setRole(role);
-        userRole.setUser(user);
-        user.setUserRoles(Collections.singletonList(userRole));
-        userRepository.save(user);
+        log.info("Creating user account " + userDTO.getUsername());
+        userService.createUser(userDTO);
     }
 
     @PostMapping("/logout")

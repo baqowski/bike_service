@@ -24,8 +24,6 @@ public class ShoppingBasket {
 
     private BigDecimal amount;
 
-    /* @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
-     private List<Product> products;*/
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -37,7 +35,7 @@ public class ShoppingBasket {
     )
     private List<Product> products;
 
-    @OneToOne
+    @OneToOne()
     private User user;
 
     public void updateAmount() {

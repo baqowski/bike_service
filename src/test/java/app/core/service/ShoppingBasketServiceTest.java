@@ -60,14 +60,6 @@ class ShoppingBasketServiceTest extends BikeAppApplicationTests {
 
     @Transactional
     @Test
-    public void shouldCreateUserShoppingBasket() {
-        shoppingBasketService.createUserShoppingBasket("username");
-        List<ShoppingBasket> shoppingBasketList = shoppingBasketRepository.findAll();
-        System.out.println(shoppingBasketList);
-    }
-
-    @Transactional
-    @Test
     public void shouldAddProductToBasket() {
         shoppingBasketService.addProductToShoppingBasket(1L);
         System.out.println("test");
