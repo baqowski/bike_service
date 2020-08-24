@@ -1,6 +1,6 @@
 package app.jwt.entity;
 
-import app.core.entity.ShoppingBasket;
+import app.core.entity.shop.ShoppingCard;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +25,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "shoppingCard")
 public class User implements UserDetails, Serializable {
 
     @Id
@@ -43,11 +43,11 @@ public class User implements UserDetails, Serializable {
     private Boolean isLogged;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-   /* @JsonManagedReference*/
+    @JsonIgnore
     private List<UserRole> userRoles;
 
-    @OneToOne(mappedBy = "user")
-    private ShoppingBasket basket;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private ShoppingCard shoppingCard;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

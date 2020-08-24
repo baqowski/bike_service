@@ -1,34 +1,55 @@
 package app.core.controller;
 
-import app.core.entity.Product;
 import app.core.entity.dto.ProductDTO;
+import app.core.exception.ProductException;
 import app.core.repository.ProductRepository;
-import app.core.service.ShoppingBasketService;
+import app.core.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Karol Bąk
  */
 
-/*@RepositoryRestController
-@RequestMapping("/product")
-@RequiredArgsConstructor*/
+@Slf4j
+@RestController
+@RequestMapping("/api/product")
+@RequiredArgsConstructor
 public class ProductController {
 
-/*    private final ProductRepository productRepository;
-    private final ShoppingBasketService shoppingBasketService;
+    private final ProductService productService;
+    private final ProductRepository productRepository;
 
-    @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody ProductDTO productDTO) {
-        productRepository.save(shoppingBasketService.addProductToBasket(productDTO));
-    }*/
+    @GetMapping("/{productId}")
+    public ResponseEntity<?> get (@PathVariable Long productId) {
+        return ResponseEntity.ok(productRepository.findById(productId));
+    }
+
+    @PatchMapping("/{productId}")
+    public ResponseEntity<?> edit(@PathVariable Long productId, @RequestBody ProductDTO productDTO) {
+        try {
+            productService.update(productId, productDTO);
+            return ResponseEntity.ok().build();
+        } catch (ProductException e) {
+            log.info(e.toString());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<?> delete(@PathVariable Long productId) {
+        try {
+            productService.delete(productId);
+            return ResponseEntity.ok().build();
+        } catch (ProductException e) {
+            log.info(e.toString());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
 
 }

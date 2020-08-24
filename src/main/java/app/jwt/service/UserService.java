@@ -1,7 +1,9 @@
 package app.jwt.service;
 
-import app.core.entity.ShoppingBasket;
-import app.core.repository.ShoppingBasketRepository;
+
+import app.core.repository.ShoppingCardProductRepository;
+import app.core.repository.ShoppingCardRepository;
+import app.core.service.ShoppingCardService;
 import app.jwt.dto.RequestJWT;
 import app.jwt.dto.ResponseJWT;
 import app.jwt.dto.UserDTO;
@@ -26,7 +28,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static app.jwt.SecurityConstants.*;
+import static app.jwt.SecurityConstants.EXPIRATION_TIME;
+import static app.jwt.SecurityConstants.SECRET;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 @Service
@@ -39,12 +42,16 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ShoppingBasketRepository shoppingBasketRepository;
+    private final ShoppingCardRepository shoppingCardRepository;
+    private final ShoppingCardService shoppingCardService;
+    private final ShoppingCardProductRepository shoppingCardProductRepository;
 
 
-    private void changeLoginStatus(Boolean status) {
+    private void changeLoginStatus() {
         User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        user.setIsLogged(status);
+        user.setIsLogged(Boolean.TRUE);
+        /*List<UserRole> userRoles = userRoleRepository.findAllByUser(user);
+        user.setUserRoles(userRoles);*/
         userRepository.save(user);
     }
 
@@ -54,20 +61,21 @@ public class UserService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        changeLoginStatus(true);
+        changeLoginStatus();
 
-        return new ResponseJWT(requestJWT.getUsername(), createTokenJWT(requestJWT.getUsername()), LocalDateTime.now().plusHours(EXPIRATION_TIME));
+        return new ResponseJWT(requestJWT.getUsername(), createTokenJWT(requestJWT.getUsername()), LocalDateTime.now().plusNanos(2000000));
 
     }
 
     private String createTokenJWT(String username) {
-        return  JWT.create()
+        return JWT.create()
                 .withSubject(username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
     }
 
-    public List<UserRole> getUserRoles (Long userId) {
+    public List<UserRole> getUserRoles(Long userId)
+    {
         return userRoleRepository.findAllByUser_Id(userId);
     }
 
@@ -80,6 +88,7 @@ public class UserService {
         log.info("Log out user: " + authentication.getName());
         SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
     }
+
     public void createUser(UserDTO userDTO) {
         // Creating user's account
         Role role = roleRepository.findByName("ROLE_USER");
@@ -91,13 +100,6 @@ public class UserService {
         userRole.setRole(role);
         userRole.setUser(user);
         user.setUserRoles(Collections.singletonList(userRole));
-        userRepository.save(user);
-        user.setBasket(createUserShoppingBasket(user));
-    }
-
-    private ShoppingBasket createUserShoppingBasket(User user) {
-        ShoppingBasket shoppingBasket = new ShoppingBasket();
-        shoppingBasket.setUser(user);
-        return shoppingBasketRepository.save(shoppingBasket);
+        shoppingCardService.createNewUserShoppingCard(user);
     }
 }
