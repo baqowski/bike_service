@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductListDTO {
 
-    List<ProductCardResponse> products;
+    List<ProductDTO> products;
 
     BigDecimal total;
 

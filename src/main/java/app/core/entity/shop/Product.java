@@ -26,5 +26,5 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<ShoppingCardProduct> shoppingCards;
+    private List<ProductShoppingCart> shoppingCards;
 }

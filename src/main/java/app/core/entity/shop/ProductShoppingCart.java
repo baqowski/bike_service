@@ -14,8 +14,8 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@ToString(exclude = {"shoppingCard", "product"})
-public class ShoppingCardProduct {
+@ToString(exclude = {"shoppingCart", "product"})
+public class ProductShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,14 +25,13 @@ public class ShoppingCardProduct {
     private Product product;
 
     @ManyToOne
-    @NotNull
-    private ShoppingCard shoppingCard;
+    private ShoppingCart shoppingCart;
 
     private Integer count;
 
-    public ShoppingCardProduct(Product product, ShoppingCard shoppingCard, Integer count) {
+    public ProductShoppingCart(Product product, ShoppingCart shoppingCart, Integer count) {
         this.product = product;
-        this.shoppingCard = shoppingCard;
+        this.shoppingCart = shoppingCart;
         this.count = count;
     }
 }

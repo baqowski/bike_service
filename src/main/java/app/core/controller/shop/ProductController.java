@@ -1,4 +1,4 @@
-package app.core.controller;
+package app.core.controller.shop;
 
 import app.core.entity.dto.ProductDTO;
 import app.core.exception.ProductException;

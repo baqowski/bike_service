@@ -1,8 +1,8 @@
-package app.core.controller;
+package app.core.controller.shop;
 
 import app.core.entity.dto.ProductDTO;
 import app.core.exception.ProductException;
-import app.core.service.ShoppingCardService;
+import app.core.service.shop.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,26 +16,27 @@ import java.io.IOException;
 
 
 @RestController
-@RequestMapping("/api/shoppingCard")
+@RequestMapping("/api/shoppingCarts")
 @RequiredArgsConstructor
-public class ShoppingCardController {
+public class ShoppingCartController {
 
-    private final ShoppingCardService shoppingCardService;
+    private final ShoppingCartService shoppingCartService;
 
-    @GetMapping("/products")
-    public ResponseEntity<?> getUserBasketProducts() {
-        return ResponseEntity.ok(shoppingCardService.getUserProducts());
+    @GetMapping()
+    public ResponseEntity<?> getProducts() {
+        return ResponseEntity.ok(shoppingCartService.getShoppingCartProducts());
     }
+
 
     @GetMapping("/amount")
     public ResponseEntity<?> getUserShoppingCard() {
-        return ResponseEntity.ok(shoppingCardService.getShoppingCard().getAmount());
+        return ResponseEntity.ok(shoppingCartService.getShoppingCard().getAmount());
     }
 
     @PostMapping("/add/{productId}/{count}")
     public ResponseEntity<?> addProductToShopping(@PathVariable Long productId, @PathVariable Integer count) throws IOException {
         try {
-            shoppingCardService.addProductToShoppingCard(productId, count);
+            shoppingCartService.addProductToShoppingCard(productId, count);
             return ResponseEntity.ok().build();
         } catch (ProductException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -45,7 +46,7 @@ public class ShoppingCardController {
     @PutMapping("/update/{productId}")
     public ResponseEntity<?> updateProductShoppingCard(@PathVariable Long productId, @RequestBody ProductDTO productDTO) {
         try {
-            return ResponseEntity.ok(shoppingCardService.updateShoppingCardProduct(productId, productDTO.getCount()));
+            return ResponseEntity.ok(shoppingCartService.updateShoppingCardProduct(productId, productDTO.getCount()));
         } catch (ProductException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -54,7 +55,7 @@ public class ShoppingCardController {
     @DeleteMapping("/delete/{productId}")
     public ResponseEntity<?> deleteProductShoppingCard(@PathVariable Long productId) {
         try {
-            return ResponseEntity.ok(shoppingCardService.removeProductFromShoppingCard(productId));
+            return ResponseEntity.ok(shoppingCartService.removeProductFromShoppingCard(productId));
         } catch (ProductException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

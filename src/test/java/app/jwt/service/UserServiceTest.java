@@ -1,7 +1,7 @@
 package app.jwt.service;
 
 import app.bike_app.AbstractIntegrationTest;
-import app.core.entity.shop.ShoppingCard;
+import app.core.entity.shop.ShoppingCart;
 import app.core.repository.ShoppingCardRepository;
 import app.jwt.dto.RequestJWT;
 import app.jwt.dto.ResponseJWT;
@@ -68,9 +68,9 @@ class UserServiceTest extends AbstractIntegrationTest {
         Assertions.assertNotNull(user);
         Assertions.assertEquals(userDTO.getUsername(), user.getUsername());
 
-        ShoppingCard shoppingCard = shoppingCardRepository.findByUser_Username(user.getUsername());
+        ShoppingCart shoppingCart = shoppingCardRepository.findByUser_Username(user.getUsername());
 
-        Assertions.assertNotNull(shoppingCard);
+        Assertions.assertNotNull(shoppingCart);
 
     }
 

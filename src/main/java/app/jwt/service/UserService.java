@@ -1,9 +1,9 @@
 package app.jwt.service;
 
 
-import app.core.repository.ShoppingCardProductRepository;
+import app.core.repository.ProductShoppingCartRepository;
 import app.core.repository.ShoppingCardRepository;
-import app.core.service.ShoppingCardService;
+import app.core.service.shop.ShoppingCartService;
 import app.jwt.dto.RequestJWT;
 import app.jwt.dto.ResponseJWT;
 import app.jwt.dto.UserDTO;
@@ -43,8 +43,8 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ShoppingCardRepository shoppingCardRepository;
-    private final ShoppingCardService shoppingCardService;
-    private final ShoppingCardProductRepository shoppingCardProductRepository;
+    private final ShoppingCartService shoppingCartService;
+    private final ProductShoppingCartRepository productShoppingCartRepository;
 
 
     private void changeLoginStatus() {
@@ -100,6 +100,7 @@ public class UserService {
         userRole.setRole(role);
         userRole.setUser(user);
         user.setUserRoles(Collections.singletonList(userRole));
-        shoppingCardService.createNewUserShoppingCard(user);
+        shoppingCartService.createNewUserShoppingCart(user);
+        log.info(user.getUserShoppingCarts().toString());
     }
 }
