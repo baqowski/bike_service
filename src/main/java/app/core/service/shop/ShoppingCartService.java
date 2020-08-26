@@ -2,8 +2,8 @@ package app.core.service.shop;
 
 import app.core.entity.dto.ProductListDTO;
 import app.core.entity.shop.Product;
-import app.core.entity.shop.ShoppingCart;
 import app.core.entity.shop.ProductShoppingCart;
+import app.core.entity.shop.ShoppingCart;
 import app.core.exception.ProductException;
 import app.core.exception.ShoppingCardProductException;
 import app.core.repository.ProductRepository;
@@ -96,7 +96,7 @@ public class ShoppingCartService {
 
     public void createNewUserShoppingCart(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user);
+        shoppingCart.setUser(userRepository.save(user));
         shoppingCardRepository.save(shoppingCart);
     }
 

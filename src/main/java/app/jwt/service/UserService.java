@@ -101,6 +101,5 @@ public class UserService {
         userRole.setUser(user);
         user.setUserRoles(Collections.singletonList(userRole));
         shoppingCartService.createNewUserShoppingCart(user);
-        log.info(user.getUserShoppingCarts().toString());
     }
 }

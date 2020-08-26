@@ -68,7 +68,7 @@ class UserServiceTest extends AbstractIntegrationTest {
         Assertions.assertNotNull(user);
         Assertions.assertEquals(userDTO.getUsername(), user.getUsername());
 
-        ShoppingCart shoppingCart = shoppingCardRepository.findByUser_Username(user.getUsername());
+        ShoppingCart shoppingCart = shoppingCardRepository.findByUser_UsernameAndIsActiveTrue(user.getUsername());
 
         Assertions.assertNotNull(shoppingCart);
 
