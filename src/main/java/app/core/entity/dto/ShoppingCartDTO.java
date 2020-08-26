@@ -13,10 +13,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductListDTO {
+public class ShoppingCartDTO {
 
     List<ProductDTO> products;
 
-    BigDecimal total;
+    BigDecimal amount;
 
 }

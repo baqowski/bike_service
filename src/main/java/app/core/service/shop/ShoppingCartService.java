@@ -1,6 +1,6 @@
 package app.core.service.shop;
 
-import app.core.entity.dto.ProductListDTO;
+import app.core.entity.dto.ShoppingCartDTO;
 import app.core.entity.shop.Product;
 import app.core.entity.shop.ProductShoppingCart;
 import app.core.entity.shop.ShoppingCart;
@@ -42,7 +42,7 @@ public class ShoppingCartService {
     private final UserRepository userRepository;
     private final ProductShoppingCardMapper productShoppingCardMapper;
 
-    public ProductListDTO getShoppingCartProducts() {
+    public ShoppingCartDTO getShoppingCartProducts() {
         ShoppingCart shoppingCart = getUserShoppingCard();
         return productShoppingCardMapper.mapToProductListDTO(shoppingCart);
     }

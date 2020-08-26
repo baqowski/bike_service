@@ -16,9 +16,9 @@ public class ShopHelperService {
 
     private final ShoppingCardRepository shoppingCardRepository;
 
-    public void updateShoppingCard(ShoppingCart shoppingCart) {
+    public ShoppingCart updateShoppingCard(ShoppingCart shoppingCart) {
         shoppingCart.setAmount(calculateAmountShoppingCard(shoppingCart));
-        shoppingCardRepository.save(shoppingCart);
+        return shoppingCardRepository.save(shoppingCart);
     }
 
     private BigDecimal calculateAmountShoppingCard(ShoppingCart shoppingCart) {

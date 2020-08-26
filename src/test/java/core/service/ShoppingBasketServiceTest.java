@@ -4,15 +4,12 @@ import app.bike_app.AbstractIntegrationTest;
 import app.core.repository.ProductRepository;
 import app.jwt.entity.Role;
 import app.jwt.entity.User;
-import app.jwt.entity.UserRole;
 import app.jwt.repository.RoleRepository;
 import app.jwt.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Collections;
 
 
 /**
@@ -55,11 +52,6 @@ class ShoppingBasketServiceTest extends AbstractIntegrationTest {
         user.setUsername("username");
         user.setPassword("password");
 
-        UserRole userRole = new UserRole();
-        userRole.setUser(user);
-        userRole.setRole(role());
-
-        user.setUserRoles(Collections.singletonList(userRole));
         userRepository.save(user);
     }
 

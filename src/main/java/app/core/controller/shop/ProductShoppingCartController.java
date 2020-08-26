@@ -3,7 +3,10 @@ package app.core.controller.shop;
 import app.core.entity.dto.ProductDTO;
 import app.core.service.shop.ProductShoppingCartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 /**
  * @author Karol Bąk
@@ -16,8 +19,8 @@ public class ProductShoppingCartController {
     private final ProductShoppingCartService productShoppingCartService;
 
     @PostMapping("/{productId}")
-    public void addProductToUserShoppingCart(@PathVariable Long productId, @RequestBody ProductDTO productDTO) {
-        productShoppingCartService.addProductToShoppingList(productId, productDTO);
+    public ResponseEntity<BigDecimal> addProductToUserShoppingCart(@PathVariable Long productId, @RequestBody ProductDTO productDTO) {
+        return ResponseEntity.ok(productShoppingCartService.addProductToShoppingList(productId, productDTO));
     }
 
     @DeleteMapping("/product/{productId}")

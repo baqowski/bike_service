@@ -25,7 +25,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "shoppingCard")
+@ToString(exclude = "role")
 public class User implements UserDetails, Serializable {
 
     @Id
@@ -42,17 +42,23 @@ public class User implements UserDetails, Serializable {
 
     private Boolean isLogged;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<UserRole> userRoles;
+    private List<Role> roles;*/
+
+    @ManyToOne
+    private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShoppingCart> userShoppingCarts;
 
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        userRoles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRole().getName())));
+        authorities.add(role);
+        /*userRoles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRole().getName())));*/
         return authorities;
     }
 

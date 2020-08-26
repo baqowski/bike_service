@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 /**
@@ -29,7 +30,7 @@ public class ProductShoppingCartService {
     private final ShopHelperService shopHelperService;
 
     @Transactional
-    public void addProductToShoppingList(Long productId, ProductDTO productDTO) {
+    public BigDecimal addProductToShoppingList(Long productId, ProductDTO productDTO) {
         Product product = productService.getProductById(productId);
         ShoppingCart shoppingCart = shoppingCartService.getUserShoppingCard();
         Optional<ProductShoppingCart> optional = productShoppingCartRepository.findByProductAndShoppingCart(product, shoppingCart);
@@ -37,7 +38,6 @@ public class ProductShoppingCartService {
         optional.ifPresentOrElse(
                 value -> {
                     value.setCount(Optional.ofNullable(productDTO.getCount()).orElse(1));
-                    shoppingCart.getProductShoppingCarts().add(value);
                     productShoppingCartRepository.save(value);
                 },
                 () -> {
@@ -46,7 +46,7 @@ public class ProductShoppingCartService {
                     productShoppingCartRepository.save(productShoppingCart);
                 }
         );
-        shopHelperService.updateShoppingCard(shoppingCart);
+        return shopHelperService.updateShoppingCard(shoppingCart).getAmount();
     }
 
     @Transactional

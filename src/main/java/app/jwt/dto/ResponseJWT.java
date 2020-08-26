@@ -19,6 +19,8 @@ public class ResponseJWT {
     @NotNull
     private String token;
 
+    private String roleName;
+
     @NotNull
     private LocalDateTime expireIn;
 

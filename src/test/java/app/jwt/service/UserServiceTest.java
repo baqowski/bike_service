@@ -9,7 +9,6 @@ import app.jwt.dto.UserDTO;
 import app.jwt.entity.User;
 import app.jwt.repository.RoleRepository;
 import app.jwt.repository.UserRepository;
-import app.jwt.repository.UserRoleRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,9 +34,6 @@ class UserServiceTest extends AbstractIntegrationTest {
     private RoleRepository roleRepository;
 
     @Autowired
-    private UserRoleRepository userRoleRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -51,7 +47,6 @@ class UserServiceTest extends AbstractIntegrationTest {
     @AfterEach
     void tearDown() {
         shoppingCardRepository.deleteAll();
-        userRoleRepository.deleteAll();
         roleRepository.deleteAll();
         userRepository.deleteAll();
     }
