@@ -58,7 +58,9 @@ class UserServiceTest extends AbstractIntegrationTest {
         userDTO.setUsername("test-username");
         userDTO.setPassword("test-password");
         userDTO.setEmail("test-email@test.pl");userService.createUser(userDTO);
-        User user = userRepository.findByUsername("test-username");
+
+        /*toDo*/
+        User user = userRepository.findByUsername("test-username").get();
 
         Assertions.assertNotNull(user);
         Assertions.assertEquals(userDTO.getUsername(), user.getUsername());

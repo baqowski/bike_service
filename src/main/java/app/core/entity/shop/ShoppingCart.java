@@ -1,5 +1,6 @@
 package app.core.entity.shop;
 
+import app.core.entity.Order;
 import app.jwt.entity.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,10 @@ public class ShoppingCart {
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductShoppingCart> productShoppingCarts;
 
-    @ManyToOne()
+    @OneToMany(mappedBy = "shoppingCart")
+    private List<Order> orders;
+
+    @ManyToOne
     private User user;
 
     private Boolean isActive;
