@@ -1,7 +1,7 @@
 package app.core.service;
 
+import app.core.entity.Product;
 import app.core.entity.dto.ProductDTO;
-import app.core.entity.shop.Product;
 import app.core.exception.ProductException;
 import app.core.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,8 @@ public class ProductService {
 
     public void update(Long productId, ProductDTO productDTO) {
         Product product = getProductById(productId);
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
+        /*product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());*/
         productRepository.save(product);
 
     }

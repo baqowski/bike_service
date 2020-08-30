@@ -1,21 +1,16 @@
-package app.jwt.service;
+package app.core.service;
 
-
-import app.core.repository.ProductShoppingCartRepository;
-import app.core.repository.ShoppingCardRepository;
+import app.core.entity.User;
+import app.core.repository.RoleRepository;
+import app.core.repository.UserRepository;
 import app.core.service.shop.ShoppingCartService;
 import app.jwt.dto.RequestJWT;
 import app.jwt.dto.ResponseJWT;
 import app.jwt.dto.UserDTO;
-import app.jwt.entity.Role;
-import app.jwt.entity.User;
-import app.jwt.repository.RoleRepository;
-import app.jwt.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -40,9 +35,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ShoppingCardRepository shoppingCardRepository;
     private final ShoppingCartService shoppingCartService;
-    private final ProductShoppingCartRepository productShoppingCartRepository;
 
 
     private void changeLoginStatus() {
@@ -88,8 +81,7 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
         user.setRole(roleRepository.findByName("ROLE_USER"));
-        /*user.setUserRoles(Collections.singletonList(userRole));*/
-        shoppingCartService.createNewUserShoppingCart(user);
+        userRepository.save(user);
     }
 
     private String getUserRole(String username) {
@@ -97,4 +89,5 @@ public class UserService {
                 .orElseThrow( ()-> new UsernameNotFoundException("Brak uzytkownika o takiej nazwie: " + username))
                 .getRole().getName();
     }
+
 }

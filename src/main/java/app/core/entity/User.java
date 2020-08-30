@@ -1,13 +1,11 @@
-package app.jwt.entity;
+package app.core.entity;
 
-import app.core.entity.shop.ShoppingCart;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -25,7 +23,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "role")
+@ToString(exclude = {"role", "userProducts", "orders"})
 public class User implements UserDetails, Serializable {
 
     @Id
@@ -42,17 +40,23 @@ public class User implements UserDetails, Serializable {
 
     private Boolean isLogged;
 
-    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Role> roles;*/
-
     @ManyToOne
+    /*@ToString.Exclude*/
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ShoppingCart> userShoppingCarts;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<UserProduct> userProducts;
 
+  /*  @ManyToMany
+    @JoinTable(
+            name = "user_product",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products;*/
 
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

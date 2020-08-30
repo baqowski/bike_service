@@ -1,7 +1,7 @@
-package app.jwt.service;
+package app.core.service;
 
-import app.jwt.entity.User;
-import app.jwt.repository.UserRepository;
+import app.core.entity.User;
+import app.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

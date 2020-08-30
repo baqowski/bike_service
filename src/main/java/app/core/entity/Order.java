@@ -1,10 +1,13 @@
 package app.core.entity;
 
-import app.core.entity.shop.ShoppingCart;
+import app.core.entity.type.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 
 /**
@@ -14,15 +17,22 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "order_shopping_cart")
+@Table(name = "user_order")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String amount;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
+    private BigDecimal amount;
+
+    @OneToMany(mappedBy = "order")
+    @JsonIgnore
+    private List<OrderProduct> productList;
 
     @ManyToOne
-    private ShoppingCart shoppingCart;
+    private User user;
 }

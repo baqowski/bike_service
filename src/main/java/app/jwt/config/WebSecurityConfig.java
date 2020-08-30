@@ -1,8 +1,8 @@
 package app.jwt.config;
 
+import app.core.service.JwtUserDetailService;
 import app.jwt.JwtAuthEntryPoint;
 import app.jwt.filter.JWTAuthorizationFilter;
-import app.jwt.service.JwtUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Order(2)
+@Order(3)
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 

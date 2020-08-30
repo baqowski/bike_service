@@ -1,6 +1,6 @@
 package app.jwt.filter;
 
-import app.jwt.service.JwtUserDetailService;
+import app.core.service.JwtUserDetailService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.InvalidClaimException;

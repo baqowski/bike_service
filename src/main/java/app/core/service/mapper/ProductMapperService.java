@@ -1,23 +1,26 @@
 package app.core.service.mapper;
 
-import app.core.entity.dto.ProductDTO;
-import app.core.entity.dto.ShoppingCartDTO;
-import app.core.entity.shop.ShoppingCart;
-import app.core.entity.shop.ProductShoppingCart;
+import app.core.entity.Product;
+import app.core.entity.dto.ProductListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Karol Bąk
  */
 @Service
 @RequiredArgsConstructor
-public class ProductShoppingCardMapper {
+public class ProductMapperService {
 
-    public ShoppingCartDTO mapToProductListDTO(ShoppingCart shoppingCart) {
+
+    public List<Product> getProducts(ProductListDTO productListDTO) {
+        return null;
+    }
+
+
+ /*   public ShoppingCartDTO mapToProductListDTO(ShoppingCart shoppingCart) {
                return productListDTO(shoppingCart);
     }
 
@@ -36,5 +39,5 @@ public class ProductShoppingCardMapper {
                 .collect(Collectors.toList());
 
         return new ShoppingCartDTO(productDTOS, shoppingCart.getAmount());
-    }
+    }*/
 }

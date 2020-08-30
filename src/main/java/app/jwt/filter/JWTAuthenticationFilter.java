@@ -1,6 +1,6 @@
 package app.jwt.filter;
 
-import app.jwt.entity.User;
+import app.core.entity.User;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

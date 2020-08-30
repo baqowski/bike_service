@@ -1,8 +1,9 @@
-package app.jwt.entity;
+package app.core.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "users")
 public class Role implements GrantedAuthority {
 
     @Id
@@ -27,9 +29,9 @@ public class Role implements GrantedAuthority {
     /*@ManyToOne
     private User user; */
 
+    /*@ToString.Exclude*/
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users;
-
 
     public Role(String name) {
         this.name = name;

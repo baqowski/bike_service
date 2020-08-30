@@ -1,6 +1,6 @@
-package app.jwt.repository;
+package app.core.repository;
 
-import app.jwt.entity.Role;
+import app.core.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

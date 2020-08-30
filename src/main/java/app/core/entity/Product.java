@@ -1,6 +1,8 @@
-package app.core.entity.shop;
+package app.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,12 +10,15 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 /**
  * @author Karol Bąk
  */
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Product {
 
     @Id
@@ -24,7 +29,17 @@ public class Product {
 
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product")
     @JsonIgnore
-    private List<ProductShoppingCart> shoppingCards;
+    private List<UserProduct> userProducts;
+
+    /*@ManyToMany(mappedBy = "products")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<User> users;*/
+
+    public Product(String name, BigDecimal price) {
+        this.name = name;
+        this.price = price;
+    }
 }

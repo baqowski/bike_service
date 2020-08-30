@@ -1,27 +1,9 @@
 package app.core.service.shop;
 
-import app.core.entity.dto.ShoppingCartDTO;
-import app.core.entity.shop.Product;
-import app.core.entity.shop.ProductShoppingCart;
-import app.core.entity.shop.ShoppingCart;
-import app.core.exception.ProductException;
-import app.core.exception.ShoppingCardProductException;
-import app.core.repository.ProductRepository;
-import app.core.repository.ProductShoppingCartRepository;
-import app.core.repository.ShoppingCardRepository;
-import app.core.service.mapper.ProductShoppingCardMapper;
-import app.jwt.entity.User;
-import app.jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Optional;
 
 /**
  * @author Karol Bąk
@@ -33,7 +15,7 @@ import java.util.Optional;
 @PropertySource("classpath:translation.properties")
 public class ShoppingCartService {
 
-    @Value("${core.entity.product.productNotFound}")
+/*    @Value("${core.entity.product.productNotFound}")
     private String PRODUCT_NOT_FOUND;
 
     private final ProductRepository productRepository;
@@ -84,8 +66,8 @@ public class ShoppingCartService {
         Product product = getProduct(productId);
         ShoppingCart shoppingCart = getUserShoppingCard();
         ProductShoppingCart productShoppingCart = getUserProductShoppingCard(product, shoppingCart);
-       /* shoppingCart.getProducts().remove(productShoppingCart);*/
-        /*shoppingCardRepository.save(shoppingCard);*/
+       *//* shoppingCart.getProducts().remove(productShoppingCart);*//*
+        *//*shoppingCardRepository.save(shoppingCard);*//*
         updateShoppingCard(shoppingCart);
         return shoppingCart.getAmount();
     }
@@ -122,5 +104,5 @@ public class ShoppingCartService {
     private ProductShoppingCart getUserProductShoppingCard(Product product, ShoppingCart userShoppingCart) {
         return productShoppingCartRepository.findByProductAndShoppingCart(product, userShoppingCart)
                 .orElseThrow(() -> new ShoppingCardProductException("Brak takiego produktu w koszyku"));
-    }
+    }*/
 }

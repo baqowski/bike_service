@@ -1,17 +1,16 @@
 package app.core.controller;
 
-import app.jwt.service.UserService;
+import app.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Karol Bąk
  */
 
-@RequestMapping("/user")
+@RequestMapping("api/users")
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -24,5 +23,11 @@ public class UserController {
     public void logout() {
         userService.logout();
     }
+
+    @PostMapping("/{/userId}/products/{productId}")
+    public void add(@PathVariable Long userId, @PathVariable Long productId){
+
+    }
+
 
 }

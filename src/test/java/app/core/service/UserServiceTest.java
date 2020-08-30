@@ -1,14 +1,12 @@
-package app.jwt.service;
+package app.core.service;
 
 import app.bike_app.AbstractIntegrationTest;
-import app.core.entity.shop.ShoppingCart;
-import app.core.repository.ShoppingCardRepository;
+import app.core.entity.User;
+import app.core.repository.RoleRepository;
+import app.core.repository.UserRepository;
 import app.jwt.dto.RequestJWT;
 import app.jwt.dto.ResponseJWT;
 import app.jwt.dto.UserDTO;
-import app.jwt.entity.User;
-import app.jwt.repository.RoleRepository;
-import app.jwt.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,9 +34,6 @@ class UserServiceTest extends AbstractIntegrationTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ShoppingCardRepository shoppingCardRepository;
-
     @BeforeEach
     void setUp() {
         /* createUser();*/
@@ -46,7 +41,6 @@ class UserServiceTest extends AbstractIntegrationTest {
 
     @AfterEach
     void tearDown() {
-        shoppingCardRepository.deleteAll();
         roleRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -65,9 +59,9 @@ class UserServiceTest extends AbstractIntegrationTest {
         Assertions.assertNotNull(user);
         Assertions.assertEquals(userDTO.getUsername(), user.getUsername());
 
-        ShoppingCart shoppingCart = shoppingCardRepository.findByUser_UsernameAndIsActiveTrue(user.getUsername());
+       /* ShoppingCart shoppingCart = shoppingCardRepository.findByUser_UsernameAndIsActiveTrue(user.getUsername());*/
 
-        Assertions.assertNotNull(shoppingCart);
+        /*Assertions.assertNotNull(shoppingCart);*/
 
     }
 
