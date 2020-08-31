@@ -1,9 +1,9 @@
 package app.core.entity.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductDTO {
 
     private Long id;
@@ -22,13 +23,6 @@ public class ProductDTO {
 
     private BigDecimal price;
 
-    private Integer count;
+    private Integer quantity;
 
-    ProductDTO(Integer count) {
-        this.count = count;
-    }
-
-    ProductDTO() {
-
-    }
 }

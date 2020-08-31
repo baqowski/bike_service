@@ -1,6 +1,7 @@
 package app.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"role", "userProducts", "orders"})
+@ToString(exclude = {"role", "orders"})
 public class User implements UserDetails, Serializable {
 
     @Id
@@ -44,9 +45,9 @@ public class User implements UserDetails, Serializable {
     /*@ToString.Exclude*/
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+/*    @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<UserProduct> userProducts;
+    private List<UserProduct> userProducts;*/
 
   /*  @ManyToMany
     @JoinTable(
@@ -55,7 +56,8 @@ public class User implements UserDetails, Serializable {
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;*/
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties
     private List<Order> orders;
 
     @Override

@@ -1,23 +1,16 @@
 package app.core.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import javax.persistence.*;
-
 /**
  * @author Karol Bąk
  */
-@Entity
+/*@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"product", "user"})
+@ToString(exclude = {"product", "user"})*/
 public class UserProduct {
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -34,5 +27,5 @@ public class UserProduct {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
-    }
+    }*/
 }

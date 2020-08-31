@@ -29,9 +29,13 @@ public class Product {
 
     private BigDecimal price;
 
+    /*@OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<UserProduct> userProducts;*/
+
     @OneToMany(mappedBy = "product")
     @JsonIgnore
-    private List<UserProduct> userProducts;
+    private List<OrderProduct> orders;
 
     /*@ManyToMany(mappedBy = "products")
     @JsonIgnore

@@ -1,13 +1,17 @@
 package app.core.repository;
 
 import app.core.entity.Order;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.List;
 
 /**
  * @author Karol Bąk
  */
 
-@RepositoryRestResource
-public interface OrderRepository extends CrudRepository<Order, Long> {
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+public interface OrderRepository extends PagingAndSortingRepository<Order, Long> {
+
+    List<Order> getAllByUser_Id(Long userId);
 }

@@ -17,7 +17,7 @@ public class JwtUserDetailService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow( ()-> new UsernameNotFoundException("Brak uzytkownika o takiej nazwie: " + username));
+        User user = userRepository.findByUsername(username)/*.orElseThrow( ()-> new UsernameNotFoundException("Brak uzytkownika o takiej nazwie: " + username))*/;
 
         return buildUserForAuthentication(user);
     }

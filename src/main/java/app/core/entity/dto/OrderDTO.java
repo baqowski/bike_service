@@ -1,6 +1,7 @@
 package app.core.entity.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,10 +14,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCartDTO {
+@Builder
+public class OrderDTO {
 
-    List<ProductDTO> products;
-
-    BigDecimal amount;
-
+    private Long id;
+    private BigDecimal amount;
+    private List<ProductDTO> products;
 }

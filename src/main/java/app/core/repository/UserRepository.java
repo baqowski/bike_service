@@ -1,17 +1,17 @@
 package app.core.repository;
 
 import app.core.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  * @author Karol Bąk
  */
 
 @RepositoryRestResource
-public interface UserRepository extends JpaRepository<User, Long> {
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
-   Optional<User> findByUsername(String username);
+   User findByUsername(String username);
 }

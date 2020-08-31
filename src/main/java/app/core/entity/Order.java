@@ -1,7 +1,7 @@
 package app.core.entity;
 
 import app.core.entity.type.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,10 +29,18 @@ public class Order {
 
     private BigDecimal amount;
 
-    @OneToMany(mappedBy = "order")
-    @JsonIgnore
-    private List<OrderProduct> productList;
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties
+    private List<OrderProduct> products;
+   /* @ManyToMany
+    @JoinTable(
+            name = "order_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products;*/
 
     @ManyToOne
+    @JsonIgnoreProperties
     private User user;
 }

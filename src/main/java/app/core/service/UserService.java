@@ -1,9 +1,9 @@
 package app.core.service;
 
 import app.core.entity.User;
+import app.core.repository.OrderRepository;
 import app.core.repository.RoleRepository;
 import app.core.repository.UserRepository;
-import app.core.service.shop.ShoppingCartService;
 import app.jwt.dto.RequestJWT;
 import app.jwt.dto.ResponseJWT;
 import app.jwt.dto.UserDTO;
@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,8 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ShoppingCartService shoppingCartService;
+    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
 
     private void changeLoginStatus() {
@@ -44,15 +44,13 @@ public class UserService {
         userRepository.save(user);*/
     }
 
-    public ResponseJWT login(RequestJWT requestJWT) throws AuthenticationException, UsernameNotFoundException {
+    public ResponseJWT login(RequestJWT requestJWT) throws AuthenticationException{
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(requestJWT.getUsername(), requestJWT.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        changeLoginStatus();
-
-        return new ResponseJWT(requestJWT.getUsername(), createTokenJWT(requestJWT.getUsername()), getUserRole(requestJWT.getUsername()), LocalDateTime.now().plusNanos(2000000));
+        return new ResponseJWT(requestJWT.getUsername(), createTokenJWT(requestJWT.getUsername()), LocalDateTime.now().plusNanos(2000000));
 
     }
 
@@ -67,7 +65,7 @@ public class UserService {
     public void logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username).orElseThrow( ()-> new UsernameNotFoundException("Brak uzytkownika o takiej nazwie: " + username));
+        User user = userRepository.findByUsername(username)/*.orElseThrow( ()-> new UsernameNotFoundException("Brak uzytkownika o takiej nazwie: " + username))*/;
         user.setIsLogged(false);
         userRepository.save(user);
         log.info("Log out user: " + authentication.getName());
@@ -84,10 +82,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-    private String getUserRole(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow( ()-> new UsernameNotFoundException("Brak uzytkownika o takiej nazwie: " + username))
-                .getRole().getName();
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+               /* .orElseThrow( ()-> new UsernameNotFoundException("Brak uzytkownika o takiej nazwie: " + username));*/
     }
+
+
 
 }
