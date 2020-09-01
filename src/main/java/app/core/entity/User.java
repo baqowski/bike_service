@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -22,7 +24,6 @@ import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"role", "orders"})
 public class User implements UserDetails, Serializable {
@@ -30,6 +31,10 @@ public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid-gen")
+    private String uuid;
 
     @Column(unique = true)
     private String username;
@@ -66,6 +71,10 @@ public class User implements UserDetails, Serializable {
         authorities.add(role);
         /*userRoles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRole().getName())));*/
         return authorities;
+    }
+
+    public User() {
+        this.uuid = String.valueOf(UUID.randomUUID());
     }
 
     @Override

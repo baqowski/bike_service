@@ -1,29 +1,26 @@
 package app.core.controller;
 
+import app.core.entity.Payment;
+import app.core.entity.dto.OrderDTO;
 import app.core.service.PayUService;
+import app.core.service.PaymentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Karol Bąk
  */
-
 @RestController
-@RequestMapping("/api/payu")
 @RequiredArgsConstructor
-public class PayUController {
+@RequestMapping("/api/payment")
+public class PaymentController {
 
-    private final PayUService payUService;
+    private final PaymentService paymentService;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/order")
-    public void createOrder() {
+    @PostMapping
+    public void createPayment(OrderDTO orderDTO) {
 
     }
-
-
 }

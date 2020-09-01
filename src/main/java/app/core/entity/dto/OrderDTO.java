@@ -1,5 +1,6 @@
 package app.core.entity.dto;
 
+import app.core.entity.type.PaymentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,10 @@ import java.util.List;
 public class OrderDTO {
 
     private Long id;
+
     private BigDecimal amount;
+
+    private PaymentType paymentType;
+
     private List<ProductDTO> products;
 }

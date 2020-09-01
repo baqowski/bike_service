@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * @author Karol Bąk
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class ResponseJWT {
 
     @NotNull
-    private String username;
+    private String uuid;
 
     @NotNull
     private String token;

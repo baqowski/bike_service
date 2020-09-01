@@ -1,10 +1,14 @@
 package app.core.controller;
 
+import app.core.entity.Order;
 import app.core.entity.User;
+import app.core.repository.UserRepository;
 import app.core.service.UserService;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 /**
  * @author Karol Bąk
@@ -16,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-
     private final UserService userService;
 
     @PostMapping("/logout")
@@ -25,14 +28,8 @@ public class UserController {
         userService.logout();
     }
 
-    @GetMapping("/{username}/test")
-    public User getUserByUsername(@PathVariable String username){
-       return userService.getUserByUsername(username);
-
-
-    }
-
-    @GetMapping("/{/userId}/orders")
-    public void userOrders(@PathVariable Long userId){
+    @GetMapping("/{uuid}/orders/{orderId}")
+    public void userOrders(@PathVariable String uuid, @PathVariable Long orderId){
+        userService.checkAccessUserToOrder(uuid, orderId);
     }
 }

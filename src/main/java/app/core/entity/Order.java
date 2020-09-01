@@ -1,6 +1,7 @@
 package app.core.entity;
 
 import app.core.entity.type.OrderStatus;
+import app.core.entity.type.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,18 +28,20 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
+
     private BigDecimal amount;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties
     private List<OrderProduct> products;
-   /* @ManyToMany
-    @JoinTable(
-            name = "order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;*/
+
+    @OneToOne(mappedBy = "order")
+    private Payment payment;
+
+    @OneToOne(mappedBy = "order")
+    private Delivery delivery;
 
     @ManyToOne
     @JsonIgnoreProperties
