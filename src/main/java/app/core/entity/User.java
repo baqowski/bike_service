@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -64,6 +63,9 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "user")
+    private List<DeliveryAddress> deliveryAddresses;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

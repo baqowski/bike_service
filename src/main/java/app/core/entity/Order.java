@@ -40,7 +40,7 @@ public class Order {
     @OneToOne(mappedBy = "order")
     private Payment payment;
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne
     private Delivery delivery;
 
     @ManyToOne

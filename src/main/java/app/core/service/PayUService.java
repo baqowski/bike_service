@@ -1,7 +1,6 @@
 package app.core.service;
 
-import app.core.entity.Payment;
-import app.core.entity.dto.PayUDTO;
+import app.core.entity.dto.PayuDTO;
 import app.core.entity.dto.PayuOrderResponseDTO;
 import app.jwt.dto.PayUResponseAuthDTO;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class PayUService {
 
-
     @Value("${payu.sandbox.grantType}")
     private String grantType;
 
@@ -38,7 +36,6 @@ public class PayUService {
     @Value("${payu.sandbox.hostUrl}")
     private String hostUrl;
 
-    private final PaymentService paymentService;
 
     public PayUResponseAuthDTO authorizeWithPayU() {
         RestTemplate restTemplate = new RestTemplate();
@@ -49,15 +46,13 @@ public class PayUService {
         return restTemplate.postForObject(authorizeUrl, request, PayUResponseAuthDTO.class);
     }
 
-    public void createOrderPayment(PayUDTO payUDTO) {
+    public PayuOrderResponseDTO createOrderPayu(PayuDTO payuDTO) {
         PayUResponseAuthDTO payUResponseAuthDTO = authorizeWithPayU();
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("authorization", payUResponseAuthDTO.getToken_type() + " " + payUResponseAuthDTO.getAccess_token());
-        HttpEntity<PayUDTO> request = new HttpEntity<>(payUDTO, headers);
-        restTemplate.postForObject(hostUrl + "/api/v2_1/orders", request, PayuOrderResponseDTO.class);
-        Payment payment = new Payment();
-        /*paymentService.createPayment(payUDTO);*/
+        HttpEntity<PayuDTO> request = new HttpEntity<>(payuDTO, headers);
+        return restTemplate.postForObject(hostUrl + "/api/v2_1/orders", request, PayuOrderResponseDTO.class);
     }
 }

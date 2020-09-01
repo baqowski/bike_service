@@ -1,9 +1,10 @@
 package app.core.entity;
 
-import app.core.entity.type.DeliveryType;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 
 /**
@@ -16,16 +17,12 @@ public class Delivery {
     @Id
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private DeliveryType deliveryType;
+    private String type;
 
     private BigDecimal cost;
 
-    @OneToOne
-    private Order order;
-
     @OneToOne(mappedBy = "delivery")
-    private DeliveryAddress deliveryAddress;
+    private Order order;
 
 
 }

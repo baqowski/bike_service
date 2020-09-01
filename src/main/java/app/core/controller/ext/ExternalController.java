@@ -31,4 +31,9 @@ public class ExternalController {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new ProductException("Brak produktu o takim id:" + productId));
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 }

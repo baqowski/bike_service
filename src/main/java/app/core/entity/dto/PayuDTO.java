@@ -11,8 +11,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-
-public class PayUDTO {
+public class PayuDTO {
 
     @Value("${payu.sandbox.notifyUrl}")
     private String notifyUrl;
@@ -26,11 +25,13 @@ public class PayUDTO {
 
     private String currencyCode;
 
-    private Long totalAmount;
+    private String totalAmount;
 
     private String extOrderId;
 
     private ClientDTO buyer;
 
-    private List<ProductDTO> products;
+    private List<PayuProductDTO> products;
+
+
 }

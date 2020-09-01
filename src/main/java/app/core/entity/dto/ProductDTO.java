@@ -25,4 +25,9 @@ public class ProductDTO {
 
     private Integer quantity;
 
+    public ProductDTO(String name, BigDecimal price, Integer quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
 }
