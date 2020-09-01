@@ -9,13 +9,13 @@ import app.core.projection.ProductProjection;
 import app.core.projection.UserProjection;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
 /**
  * @author Karol Bąk
  */
 @Configuration
-public class RestConfig extends RepositoryRestConfigurerAdapter {
+public class RestConfig implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {

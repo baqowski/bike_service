@@ -20,7 +20,6 @@ import java.util.Date;
 import static app.jwt.SecurityConstants.*;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
-
 /**
  * @author Karol Bąk
  */

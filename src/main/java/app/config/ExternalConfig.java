@@ -1,4 +1,4 @@
-package app.jwt.config;
+package app.config;
 
 import app.jwt.filter.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Configuration;

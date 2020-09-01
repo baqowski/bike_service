@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author Karol Bąk
@@ -30,12 +29,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtUserDetailService jwtUserDetailService;
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(jwtUserDetailService)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
@@ -44,11 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
-    @Bean
+/*    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -66,6 +65,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUserDetailService ))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
     }
 }
