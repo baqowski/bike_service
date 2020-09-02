@@ -29,8 +29,8 @@ public class PaymentController {
     private final PayUService payUService;
 
     @PostMapping
-    public void createPayment(Long orderId) {
-        paymentService.createNewPayment(orderId);
+    public void createPayment(OrderDTO orderDTO) {
+        paymentService.createNewPayment(orderDTO);
     }
 
     @ResponseStatus(HttpStatus.FOUND)

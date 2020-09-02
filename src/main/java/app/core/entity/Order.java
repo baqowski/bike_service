@@ -1,7 +1,6 @@
 package app.core.entity;
 
 import app.core.entity.type.OrderStatus;
-import app.core.entity.type.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "user_order")
-@ToString(exclude = "delivery")
+@ToString(exclude = "deliveryOrder")
 public class Order {
 
     @Id
@@ -29,9 +28,6 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-
-    @Enumerated(EnumType.STRING)
-    private PaymentType paymentType;
 
     private BigDecimal amount;
 
@@ -42,8 +38,9 @@ public class Order {
     @OneToOne(mappedBy = "order")
     private Payment payment;
 
-    @OneToOne
-    private Delivery delivery;
+
+    @ManyToOne
+    private DeliveryOrder deliveryOrder;
 
     @ManyToOne
     @JsonIgnoreProperties

@@ -20,9 +20,5 @@ public class DeliveryAddressMapper implements CommonMapper<DeliveryAddress> {
         return null;
     }
 
-    public DeliveryAddress toDeliveryAddress (OrderDTO orderDTO){
-
-        return DeliveryAddress.builder().build();
-    }
 
 }

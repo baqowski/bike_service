@@ -4,8 +4,9 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Karol Bąk
@@ -21,8 +22,10 @@ public class Delivery {
 
     private BigDecimal cost;
 
-    @OneToOne(mappedBy = "delivery")
-    private Order order;
+    @OneToMany(mappedBy = "delivery")
+    private List<DeliveryOrder> deliveryOrders;
+
+
 
 
 }

@@ -23,5 +23,5 @@ public class OrderDTO {
 
     private List<ProductDTO> products;
 
-    private app.core.entity.Delivery Delivery;
+    private DeliveryDTO delivery;
 }

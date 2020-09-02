@@ -1,15 +1,9 @@
 package app.core.service.mapper;
 
-import app.core.entity.Delivery;
-import app.core.entity.DeliveryAddress;
-import app.core.entity.Order;
-import app.core.entity.OrderProduct;
+import app.core.entity.*;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.type.OrderStatus;
-import app.core.repository.DeliveryAddressRepository;
-import app.core.repository.DeliveryRepository;
-import app.core.repository.OrderProductRepository;
-import app.core.repository.OrderRepository;
+import app.core.repository.*;
 import app.core.service.OrderService;
 import app.core.service.UserService;
 import app.core.service.helper.OrderHelper;
@@ -32,6 +26,7 @@ public class OrderMapper {
     private final DeliveryRepository deliveryRepository;
     private final DeliveryAddressRepository deliveryAddressRepository;
     private final OrderHelper orderHelper;
+    private final DeliveryOrderRepository deliveryOrderRepository;
 
     private CommonMapper<DeliveryAddress> deliveryAddressMapper;
 
@@ -43,23 +38,24 @@ public class OrderMapper {
         List<OrderProduct> orderProducts = productMapper.mapFromDtoToProductList(orderDTO.getProducts(), order);
 
         Delivery delivery = deliveryRepository.findByType(orderDTO.getDelivery().getType());
-        DeliveryAddress deliveryAddress = DeliveryAddress.builder()
-                .delivery(delivery)
-                .build();
 
+        DeliveryAddress deliveryAddress = new DeliveryAddress();
         deliveryAddress.setStreet(orderDTO.getDelivery().getDeliveryAddress().getStreet());
         deliveryAddress.setHouseNumber(orderDTO.getDelivery().getDeliveryAddress().getHouseNumber());
         deliveryAddress.setPostalCode(orderDTO.getDelivery().getDeliveryAddress().getPostalCode());
         deliveryAddress.setCity(orderDTO.getDelivery().getDeliveryAddress().getCity());
 
-        delivery.setDeliveryAddress(deliveryAddressRepository.save(deliveryAddress));
-        order.setProducts(orderProducts);
+        DeliveryOrder deliveryOrder = new DeliveryOrder();
+        deliveryOrder.setDelivery(delivery);
+        deliveryOrder.setDeliveryAddress(deliveryAddressRepository.save(deliveryAddress));
 
 
         order.setOrderStatus(OrderStatus.CREATED_BY_CLIENT);
-        order.setDelivery(delivery);
+        order.setDeliveryOrder(deliveryOrderRepository.save(deliveryOrder));
 
         order.setUser(userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        order.setProducts(orderProducts);
+
         order.setAmount(orderHelper.calculateOrderSummaryPrice(order));
         orderRepository.save(order).setProducts((List<OrderProduct>) orderProductRepository.saveAll(orderProducts));
         return order;

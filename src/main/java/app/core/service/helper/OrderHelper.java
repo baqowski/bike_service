@@ -42,6 +42,6 @@ public class OrderHelper {
        return order.getProducts().stream()
                .map(orderProduct -> BigDecimal.valueOf(orderProduct.getQuantity()).multiply(orderProduct.getProduct().getPrice()))
                .reduce(BigDecimal.ZERO, BigDecimal::add)
-               .add(order.getDelivery().getCost());
+               .add(order.getDeliveryOrder().getDelivery().getCost());
     }
 }
