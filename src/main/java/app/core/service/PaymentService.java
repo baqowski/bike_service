@@ -1,5 +1,6 @@
 package app.core.service;
 
+import app.core.entity.Order;
 import app.core.entity.Payment;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.dto.PayuDTO;
@@ -24,17 +25,16 @@ public class PaymentService {
     private final PayUService payUService;
     private final OrderRepository orderRepository;
 
-    public void createNewPayment(OrderDTO orderDTO) {
+    public void createNewPayment(Long orderId) {
+        Order order = orderRepository.getById(orderId).orElseThrow(()-> new OrderException("Brak zamówienia o odanym identyfikatorze " + orderId));
+
         Payment payment = new Payment();
-        payment.setOrder(orderRepository.getById(orderDTO.getId())
-                .orElseThrow(()-> new OrderException("Brak zamówienia o odanym identyfikatorze " + orderDTO.getId())));
 
-        payment.setPaymentType(orderDTO.getPaymentType());
-        paymentRepository.save(payment);
-
-        if (PaymentType.PAYU.equals(orderDTO.getPaymentType())) {
+        if (PaymentType.PAYU.equals(order.getPaymentType())) {
             PayuDTO payuDTO = new PayuDTO();
             PayuOrderResponseDTO payuOrderResponseDTO = payUService.createOrderPayu(payuDTO);
+            payment.setPayuId(payuOrderResponseDTO.getOrderId());
         }
+        paymentRepository.save(payment);
     };
 }
