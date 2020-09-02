@@ -14,7 +14,7 @@ import java.util.List;
 public class PayuDTO {
 
     @Value("${payu.sandbox.notifyUrl}")
-    private String notifyUrl;
+    private String notifyUlr;
 
     private String customerIp;
 

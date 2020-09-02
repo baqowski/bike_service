@@ -37,7 +37,7 @@ public class PaymentController {
     @PostMapping("/test")
     public PayuOrderResponseDTO test () {
         PayuDTO payuDTO = new PayuDTO();
-        payuDTO.setNotifyUrl("https://your.eshop.com/notify");
+        payuDTO.setNotifyUlr("https://your.eshop.com/notify");
         payuDTO.setCustomerIp("127.0.0.1");
         payuDTO.setMerchantPosId("393517");
         payuDTO.setDescription("Test");

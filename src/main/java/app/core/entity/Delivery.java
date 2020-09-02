@@ -22,6 +22,9 @@ public class Delivery {
     private BigDecimal cost;
 
     @OneToOne(mappedBy = "delivery")
+    private Address address;
+
+    @OneToOne(mappedBy = "delivery")
     private Order order;
 
 
