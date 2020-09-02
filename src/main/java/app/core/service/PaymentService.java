@@ -4,6 +4,7 @@ import app.core.entity.Payment;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.dto.PayuDTO;
 import app.core.entity.dto.PayuOrderResponseDTO;
+import app.core.entity.type.PaymentType;
 import app.core.exception.OrderException;
 import app.core.repository.OrderRepository;
 import app.core.repository.PaymentRepository;

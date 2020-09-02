@@ -29,9 +29,14 @@ public class Product {
 
     private BigDecimal price;
 
-    /*@OneToMany(mappedBy = "product")
-    @JsonIgnore
-    private List<UserProduct> userProducts;*/
+    private String imageUrl;
+
+    private String color;
+
+    private String producer;
+
+    @ManyToOne
+    private ProductCategory productCategory;
 
     @OneToMany(mappedBy = "product")
     @JsonIgnore

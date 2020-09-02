@@ -1,30 +1,30 @@
 package app.core.entity;
 
-import app.core.entity.type.PaymentStatus;
-import app.core.entity.type.PaymentType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Karol Bąk
  */
 @Entity
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class Payment {
+public class ProductCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String payuId;
-
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
+    private String categoryName;
 
     @OneToOne
-    private Order order;
+    private ProductCategory productCategory;
 
+    @OneToMany(mappedBy = "productCategory")
+    private List<Product> products;
 }

@@ -1,8 +1,10 @@
 package app.core.entity;
 
 import lombok.*;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.persistence.OneToOne;
 
 /**
  * @author Karol Bąk

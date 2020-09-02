@@ -29,15 +29,15 @@ public class PaymentController {
     private final PayUService payUService;
 
     @PostMapping
-    public void createPayment(OrderDTO orderDTO) {
-        paymentService.createNewPayment(orderDTO);
+    public void createPayment(Long orderId) {
+        paymentService.createNewPayment(orderId);
     }
 
     @ResponseStatus(HttpStatus.FOUND)
     @PostMapping("/test")
     public PayuOrderResponseDTO test () {
         PayuDTO payuDTO = new PayuDTO();
-        payuDTO.setNotifyUrl("https://your.eshop.com/notify");
+        payuDTO.setNotifyUlr("https://your.eshop.com/notify");
         payuDTO.setCustomerIp("127.0.0.1");
         payuDTO.setMerchantPosId("393517");
         payuDTO.setDescription("Test");
