@@ -8,16 +8,10 @@ import org.springframework.data.rest.core.config.Projection;
  * @author Karol Bąk
  */
 @Projection(
-        name = "full",
+        name = "role",
         types = {User.class}
 )
-public interface UserProjection {
-
-    Long getId();
-
-    String getUsername();
+public interface UserRoleProjection {
 
     Role getRole();
-
-    /*List<Order> getOrders();*/
 }

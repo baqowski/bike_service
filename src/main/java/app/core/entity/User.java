@@ -65,7 +65,7 @@ public class User implements UserDetails, Serializable {
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
-    private List<DeliveryAddress> deliveryAddresses;
+    private List<UserAddress> userAddresses;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

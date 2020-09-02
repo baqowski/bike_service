@@ -5,10 +5,11 @@ import app.core.entity.OrderProduct;
 import app.core.entity.User;
 import app.core.entity.dto.ProductDTO;
 import app.core.repository.UserRepository;
-import app.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 /**
  * @author Karol Bąk
@@ -35,5 +36,12 @@ public class OrderHelper {
 
     public boolean validateOrdersForClients(String uuid, Order target) {
         return getUserByUuid(uuid).getOrders().stream().anyMatch(order -> order.equals(target)) && getUserByUuid(uuid).getRole().getName().equals("ROLE_USER");
+    }
+
+    public BigDecimal calculateOrderSummaryPrice(Order order) {
+       return order.getProducts().stream()
+               .map(orderProduct -> BigDecimal.valueOf(orderProduct.getQuantity()).multiply(orderProduct.getProduct().getPrice()))
+               .reduce(BigDecimal.ZERO, BigDecimal::add)
+               .add(order.getDelivery().getCost());
     }
 }

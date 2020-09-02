@@ -11,4 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RepositoryRestResource
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public interface DeliveryRepository extends CrudRepository<Delivery, Long> {
+
+    Delivery findByType (String type);
 }

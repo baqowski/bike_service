@@ -1,6 +1,5 @@
 package app.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -23,15 +22,10 @@ public class OrderProduct {
     private Integer quantity;
 
     @ManyToOne
-    @JsonIgnoreProperties
     private Order order;
 
     @ManyToOne
-    @JsonIgnoreProperties
     private Product product;
-
-    /*@ManyToOne
-    private UserProduct userProduct;*/
 
     public OrderProduct(Product product, Order order, Integer quantity) {
         this.product = product;

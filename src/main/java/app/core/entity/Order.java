@@ -5,6 +5,7 @@ import app.core.entity.type.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "user_order")
+@ToString(exclude = "delivery")
 public class Order {
 
     @Id
@@ -33,7 +35,7 @@ public class Order {
 
     private BigDecimal amount;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties
     private List<OrderProduct> products;
 

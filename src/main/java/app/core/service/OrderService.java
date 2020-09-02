@@ -3,19 +3,14 @@ package app.core.service;
 import app.core.entity.Order;
 import app.core.entity.OrderProduct;
 import app.core.entity.Product;
-import app.core.entity.User;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.dto.ProductDTO;
-import app.core.entity.type.OrderStatus;
 import app.core.exception.ProductException;
-import app.core.repository.OrderProductRepository;
-import app.core.repository.OrderRepository;
-import app.core.repository.ProductRepository;
-import app.core.repository.UserRepository;
+import app.core.repository.*;
 import app.core.service.helper.OrderHelper;
+import app.core.service.mapper.ProductMapper;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,20 +30,17 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderProductRepository orderProductRepository;
     private final OrderHelper orderHelper;
+    private final ProductMapper productMapper;
+    private final DeliveryAddressRepository deliveryAddressRepository;
+    private final DeliveryRepository deliveryRepository;
 
     @Transactional
-    public Long create(List<ProductDTO> productDTOS) {
-        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-                /*.orElseThrow(() -> new UsernameNotFoundException("Cant find user"));
-*/
+    public Long create(OrderDTO orderDTO) {
         Order order = new Order();
-        order.setOrderStatus(OrderStatus.CREATED_BY_CLIENT);
-        order.setUser(user);
-        orderRepository.save(order);
-
-        List<OrderProduct> orderProducts = toOrderProductList(productDTOS, order);
-        order.setAmount(calculateOrderAmount(orderProducts));
-        return orderRepository.save(order).getId();
+        /*orderRepository.save(order);*/
+        List<OrderProduct> orderProducts = productMapper.mapFromDtoToProductList(orderDTO.getProducts(), order);
+        orderProductRepository.saveAll(orderProducts);
+        return order.getId();
     }
 
     @Transactional

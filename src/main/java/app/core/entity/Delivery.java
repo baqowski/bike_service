@@ -1,6 +1,7 @@
 package app.core.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
  */
 @Data
 @Entity
+@ToString(exclude = "deliveryAddress")
 public class Delivery {
 
     @Id
@@ -22,7 +24,5 @@ public class Delivery {
     private BigDecimal cost;
 
     @OneToOne(mappedBy = "delivery")
-    private Order order;
-
-
+    private DeliveryAddress deliveryAddress;
 }
