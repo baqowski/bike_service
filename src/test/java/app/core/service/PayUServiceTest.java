@@ -26,7 +26,7 @@ class PayUServiceTest extends AbstractIntegrationTest {
 
     @Test
     public void shouldAuthorizeWithPayU() {
-        PayUResponseAuthDTO payUResponseAuthDTO = payUService.authorize();
+        PayUResponseAuthDTO payUResponseAuthDTO = payUService.authorizeWithPayU();
 
         Assertions.assertNotNull(payUResponseAuthDTO);
         Assertions.assertNotNull(payUResponseAuthDTO.getAccess_token());

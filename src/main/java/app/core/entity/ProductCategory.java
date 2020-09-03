@@ -3,6 +3,8 @@ package app.core.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"embedded", "products"})
 public class ProductCategory {
 
     @Id
@@ -23,8 +26,11 @@ public class ProductCategory {
     private String categoryName;
 
     @OneToOne
-    private ProductCategory productCategory;
+    @JoinColumn(name = "product_category_id")
+    @JsonIgnore
+    private ProductCategory embedded;
 
     @OneToMany(mappedBy = "productCategory")
+    @JsonIgnore
     private List<Product> products;
 }
