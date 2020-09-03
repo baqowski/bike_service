@@ -1,6 +1,7 @@
 package app.core.entity.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@Builder
 public class PayuProductDTO {
 
     private String name;

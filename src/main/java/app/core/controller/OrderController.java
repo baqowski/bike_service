@@ -43,4 +43,9 @@ public class OrderController {
             return orderService.getUserOrderDTO(orderId);
 
     }
+
+    @GetMapping("/{orderId}/payments/{paymentId}")
+    public void getOrderPayment(@PathVariable Long orderId, @PathVariable Long paymentId) {
+        
+    }
 }

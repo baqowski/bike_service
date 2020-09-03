@@ -19,7 +19,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String payuId;
+    private String payuOrderId;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;

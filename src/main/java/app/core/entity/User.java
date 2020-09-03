@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,11 +22,12 @@ import java.util.UUID;
  * @author Karol Bąk
  */
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
 @ToString(exclude = {"role", "orders"})
-public class User implements UserDetails, Serializable {
+public class User extends UserSuperclass implements UserDetails, Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

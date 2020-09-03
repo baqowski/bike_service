@@ -5,7 +5,8 @@ package app.core.entity.type;
  */
 public enum PaymentStatus {
 
-    IN_PROGRESS,
     STARTED,
-    REJECTED
+    IN_PROGRESS,
+    REJECTED,
+    FINISHED
 }

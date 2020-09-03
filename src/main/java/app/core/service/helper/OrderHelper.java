@@ -4,6 +4,8 @@ import app.core.entity.Order;
 import app.core.entity.OrderProduct;
 import app.core.entity.User;
 import app.core.entity.dto.ProductDTO;
+import app.core.exception.OrderException;
+import app.core.repository.OrderRepository;
 import app.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +21,7 @@ import java.math.BigDecimal;
 public class OrderHelper {
 
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
     public ProductDTO toProductDTO(OrderProduct orderProduct) {
         return ProductDTO.builder()
@@ -43,5 +46,9 @@ public class OrderHelper {
                .map(orderProduct -> BigDecimal.valueOf(orderProduct.getQuantity()).multiply(orderProduct.getProduct().getPrice()))
                .reduce(BigDecimal.ZERO, BigDecimal::add)
                .add(order.getDeliveryOrder().getDelivery().getCost());
+    }
+
+    public Order getOrderById(Long id) {
+        return orderRepository.getById(id).orElseThrow(() -> new OrderException("Brak zamówienia o takim numerze " + id));
     }
 }

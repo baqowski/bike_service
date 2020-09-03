@@ -11,10 +11,10 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class PayuDTO {
+public class  PayuDTO {
 
     @Value("${payu.sandbox.notifyUrl}")
-    private String notifyUlr;
+    private String notifyUrl;
 
     private String customerIp;
 
@@ -26,8 +26,6 @@ public class PayuDTO {
     private String currencyCode;
 
     private String totalAmount;
-
-    private String extOrderId;
 
     private ClientDTO buyer;
 
