@@ -40,11 +40,6 @@ public class Product {
     @JsonIgnore
     private List<OrderProduct> orders;
 
-    /*@ManyToMany(mappedBy = "products")
-    @JsonIgnore
-    @ToString.Exclude
-    private List<User> users;*/
-
     public Product(String name, BigDecimal price) {
         this.name = name;
         this.price = price;

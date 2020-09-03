@@ -1,12 +1,9 @@
 package app.core.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +11,8 @@ import java.util.List;
  */
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString(exclude = {"embedded", "products"})
+/*@AllArgsConstructor
+@NoArgsConstructor*/
 public class ProductCategory {
 
     @Id
@@ -26,11 +22,19 @@ public class ProductCategory {
     private String categoryName;
 
     @OneToOne
-    @JoinColumn(name = "product_category_id")
-    @JsonIgnore
     private ProductCategory embedded;
 
-    @OneToMany(mappedBy = "productCategory")
-    @JsonIgnore
+    @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY)
     private List<Product> products;
+
+    public void setProducts(List<Product> products) {
+        if (products != null) {
+            products.forEach(product -> product.setProductCategory(this));
+        }
+        this.products = products;
+    }
+
+    public ProductCategory() {
+        this.products = new ArrayList<>();
+    }
 }
