@@ -34,6 +34,7 @@ public class Product {
     private String producer;
 
     @ManyToOne
+    @JsonIgnore
     private ProductCategory productCategory;
 
     @OneToMany(mappedBy = "product")
