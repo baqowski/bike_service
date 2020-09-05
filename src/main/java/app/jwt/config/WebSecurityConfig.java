@@ -44,19 +44,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-/*    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }*/
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/api").hasRole("USER")
+                .antMatchers("/api/**").hasAnyRole("ADMIN", "USER", "WORKER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

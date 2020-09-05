@@ -1,15 +1,17 @@
 package app.core.service.helper;
 
 import app.core.entity.Order;
-import app.core.entity.OrderProduct;
+import app.core.entity.Payment;
 import app.core.entity.User;
-import app.core.entity.dto.ProductDTO;
 import app.core.exception.OrderException;
+import app.core.exception.payment.PaymentException;
 import app.core.repository.OrderRepository;
+import app.core.repository.PaymentRepository;
 import app.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.math.BigDecimal;
 
@@ -22,15 +24,9 @@ public class OrderHelper {
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
 
-    public ProductDTO toProductDTO(OrderProduct orderProduct) {
-        return ProductDTO.builder()
-                .id(orderProduct.getProduct().getId())
-                .name(orderProduct.getProduct().getName())
-                .price(orderProduct.getProduct().getPrice())
-                .quantity(orderProduct.getQuantity())
-                .build();
-    }
+
 
     public User getUserByUuid(String uuid) {
         return userRepository.findByUuid(uuid).orElseThrow( ()-> new UsernameNotFoundException("Cant find user"));
@@ -50,5 +46,15 @@ public class OrderHelper {
 
     public Order getOrderById(Long id) {
         return orderRepository.getById(id).orElseThrow(() -> new OrderException("Brak zamówienia o takim numerze " + id));
+    }
+
+    public Payment getPaymentById(Long id) {
+        return paymentRepository.findById(id).orElseThrow(() -> new PaymentException("Brak płatności o takim numerze"));
+    }
+
+
+    @ExceptionHandler(OrderException.class)
+    public void validateOrderPayment(Order order) {
+
     }
 }

@@ -14,19 +14,19 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/ext")
+@RequestMapping("/ext/products")
 @RequiredArgsConstructor
-public class ExternalController {
+public class ProductExternalController {
 
     private final ProductRepository productRepository;
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/products")
+    @GetMapping
     public List<Product> getProducts() {
         return productRepository.findAll();
     }
 
-    @GetMapping("/products/{productId}")
+    @GetMapping("/{productId}")
     public Product getProductById(@PathVariable Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new ProductException("Brak produktu o takim id:" + productId));

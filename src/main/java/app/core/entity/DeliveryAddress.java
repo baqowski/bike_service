@@ -2,6 +2,7 @@ package app.core.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@ToString(exclude = "deliveryOrder")
 public class DeliveryAddress extends AddressSuperclass {
 
     @Id

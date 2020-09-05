@@ -1,9 +1,8 @@
 package app.core.entity.dto;
 
+import app.core.entity.Delivery;
 import app.core.entity.DeliveryAddress;
 import lombok.Data;
-
-import java.math.BigDecimal;
 
 /**
  * @author Karol Bąk
@@ -11,9 +10,7 @@ import java.math.BigDecimal;
 @Data
 public class DeliveryDTO {
 
-    private String type;
-
-    private BigDecimal cost;
+    private Delivery delivery;
 
     private DeliveryAddress deliveryAddress;
 }

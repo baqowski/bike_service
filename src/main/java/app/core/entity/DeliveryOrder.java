@@ -1,6 +1,7 @@
 package app.core.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Data
 @ToString(exclude = {"delivery", "deliveryAddress"})
+@NoArgsConstructor
 public class DeliveryOrder {
 
     @Id
@@ -27,5 +29,8 @@ public class DeliveryOrder {
     @OneToOne
     private DeliveryAddress deliveryAddress;
 
-
+    public DeliveryOrder(Delivery delivery, DeliveryAddress deliveryAddress) {
+        this.delivery = delivery;
+        this.deliveryAddress = deliveryAddress;
+    }
 }

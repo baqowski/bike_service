@@ -26,7 +26,7 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 @Slf4j
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -50,7 +50,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
-
         String token = JWT.create()
                 .withSubject(USERNAME)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

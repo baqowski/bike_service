@@ -1,4 +1,4 @@
-package app.core.entity;
+package app.core.entity.type;
 
 /**
  * @author Karol Bąk

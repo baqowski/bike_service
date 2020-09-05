@@ -1,10 +1,10 @@
 package app.core.controller;
 
 import app.core.entity.Order;
+import app.core.entity.Payment;
 import app.core.entity.dto.OrderDTO;
 import app.core.repository.OrderRepository;
-import app.core.repository.ProductRepository;
-import app.core.repository.UserRepository;
+import app.core.repository.PaymentRepository;
 import app.core.service.OrderService;
 import app.core.service.mapper.OrderMapper;
 import javassist.NotFoundException;
@@ -21,15 +21,14 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class OrderController {
 
-    private final UserRepository userRepository;
-    private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final OrderService orderService;
     private final OrderMapper orderMapper;
+    private final PaymentRepository paymentRepository;
 
     @PostMapping
-    public Long create(@RequestBody OrderDTO orderDTO) {
-         return orderMapper.map(orderDTO).getId();
+    public Long registerNewOrderWithEmptyPayment(@RequestBody OrderDTO orderDTO) {
+       return orderService.registerNewOrder(orderDTO);
     }
 
     @GetMapping("{/orderId}")
@@ -37,15 +36,21 @@ public class OrderController {
         return orderRepository.findById(orderId).orElseThrow();
     }
 
+
     @ExceptionHandler(NotFoundException.class)
     @GetMapping("/{orderId}/products")
     public OrderDTO getOrderProducts(@PathVariable Long orderId) throws NotFoundException {
-            return orderService.getUserOrderDTO(orderId);
-
+        /*return orderService.getUserOrderDTO(orderId);*/
+        return null;
     }
 
-    @GetMapping("/{orderId}/payments/{paymentId}")
-    public void getOrderPayment(@PathVariable Long orderId, @PathVariable Long paymentId) {
-        
+    @PostMapping("/{orderId}/payment")
+    public Long getNewPaymentIdCreatedByPaymentType(@PathVariable Long orderId, @RequestBody Payment payment) {
+        return orderService.createOrUpdateOrderPayment(orderId, payment.getPaymentType()).getId();
+    }
+
+    @GetMapping("/{orderId}/payment/{paymentId}")
+    public Payment getOrderPayment(@PathVariable Long orderId, @PathVariable Long paymentId) {
+        return orderService.getOrderPayment(orderId, paymentId);
     }
 }

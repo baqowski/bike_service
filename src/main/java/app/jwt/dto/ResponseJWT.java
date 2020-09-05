@@ -4,9 +4,6 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 /**
  * @author Karol Bąk
  */
@@ -21,6 +18,6 @@ public class ResponseJWT {
     private String token;
 
     @NotNull
-    private LocalDateTime expireIn;
+    private String expireIn;
 
 }

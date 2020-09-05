@@ -2,66 +2,63 @@ package app.core.service.mapper;
 
 import app.core.entity.*;
 import app.core.entity.dto.OrderDTO;
+import app.core.entity.dto.ProductDTO;
 import app.core.entity.type.OrderStatus;
+import app.core.exception.ProductException;
 import app.core.repository.*;
-import app.core.service.OrderService;
-import app.core.service.UserService;
-import app.core.service.helper.OrderHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Karol Bąk
  */
 @Service
 @RequiredArgsConstructor
-public class OrderMapper {
-    private final OrderService orderService;
-    private final OrderRepository orderRepository;
+public class OrderMapper implements DtoMapper<Order, OrderDTO> {
+
+    private final ProductRepository productRepository;
     private final OrderProductRepository orderProductRepository;
-    private final ProductMapper productMapper;
-    private final DeliveryRepository deliveryRepository;
-    private final DeliveryAddressRepository deliveryAddressRepository;
-    private final OrderHelper orderHelper;
     private final DeliveryOrderRepository deliveryOrderRepository;
+    private final DeliveryAddressRepository deliveryAddressRepository;
+    private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
 
-    private CommonMapper<DeliveryAddress> deliveryAddressMapper;
-
-    private final UserService userService;
-
-    public Order map(OrderDTO orderDTO) {
+    @Override
+    @Transactional
+    public Order map(OrderDTO dto) {
         Order order = new Order();
 
-        List<OrderProduct> orderProducts = productMapper.mapFromDtoToProductList(orderDTO.getProducts(), order);
+        toOrderProductList(dto.getProducts(), order);
 
-        Delivery delivery = deliveryRepository.findByType(orderDTO.getDelivery().getType());
+        DeliveryOrder deliveryOrder = new DeliveryOrder(dto.getDeliveryOrder().getDelivery(),
+                deliveryAddressRepository.save(dto.getDeliveryOrder().getDeliveryAddress()));
 
-        DeliveryAddress deliveryAddress = new DeliveryAddress();
-        deliveryAddress.setStreet(orderDTO.getDelivery().getDeliveryAddress().getStreet());
-        deliveryAddress.setHouseNumber(orderDTO.getDelivery().getDeliveryAddress().getHouseNumber());
-        deliveryAddress.setPostalCode(orderDTO.getDelivery().getDeliveryAddress().getPostalCode());
-        deliveryAddress.setCity(orderDTO.getDelivery().getDeliveryAddress().getCity());
-
-        DeliveryOrder deliveryOrder = new DeliveryOrder();
-        deliveryOrder.setDelivery(delivery);
-        deliveryOrder.setDeliveryAddress(deliveryAddressRepository.save(deliveryAddress));
-
-
-        order.setOrderStatus(OrderStatus.CREATED_BY_CLIENT);
         order.setDeliveryOrder(deliveryOrderRepository.save(deliveryOrder));
 
-        order.setUser(userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        order.setProducts(orderProducts);
-
-        order.setAmount(orderHelper.calculateOrderSummaryPrice(order));
-        orderRepository.save(order).setProducts((List<OrderProduct>) orderProductRepository.saveAll(orderProducts));
-        return order;
+        Payment payment = new Payment();
+        order.setAmount(dto.getAmount());
+        order.setPayment(paymentRepository.save(payment));
+        order.setOrderStatus(OrderStatus.CREATED_BY_CLIENT);
+        return orderRepository.save(order);
     }
 
-    public OrderDTO toOrderDto(Long productId) {
-        return  null;
+
+
+    private Product toProduct(ProductDTO productDTO) {
+        return productRepository.findById(productDTO.getId())
+                .orElseThrow(() -> new ProductException("Cant find product by id:" + productDTO.getId()));
+    }
+
+    private List<OrderProduct> toOrderProductList(List<ProductDTO> productDTOS, Order order) {
+        return productDTOS.stream().map(productDTO -> this.toOrderProduct(productDTO, order))
+                .collect(Collectors.toList());
+    }
+
+    private OrderProduct toOrderProduct(ProductDTO productDTO, Order order) {
+        return orderProductRepository.save(new OrderProduct(toProduct(productDTO), order, productDTO.getQuantity()));
     }
 }

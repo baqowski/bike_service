@@ -18,4 +18,8 @@ public abstract class UserSuperclass {
     private String lastName;
 
     private String phone;
+
+    private String email;
+
+    private Boolean isLogged;
 }

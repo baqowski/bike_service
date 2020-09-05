@@ -21,7 +21,6 @@ import java.util.UUID;
 /**
  * @author Karol Bąk
  */
-
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -43,24 +42,8 @@ public class User extends UserSuperclass implements UserDetails, Serializable  {
     @JsonIgnore
     private String password;
 
-    private String email;
-
-    private Boolean isLogged;
-
     @ManyToOne
-    /*@ToString.Exclude*/
     private Role role;
-
-/*    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<UserProduct> userProducts;*/
-
-  /*  @ManyToMany
-    @JoinTable(
-            name = "user_product",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;*/
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties

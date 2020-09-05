@@ -4,9 +4,11 @@ import app.bike_app.AbstractIntegrationTest;
 import app.core.entity.User;
 import app.core.repository.RoleRepository;
 import app.core.repository.UserRepository;
+import app.core.service.helper.UserHelper;
 import app.jwt.dto.RequestJWT;
 import app.jwt.dto.ResponseJWT;
 import app.jwt.dto.UserDTO;
+import app.jwt.service.AuthorizationService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +33,13 @@ class UserServiceTest extends AbstractIntegrationTest {
     private RoleRepository roleRepository;
 
     @Autowired
-    private UserService userService;
+    private AuthorizationService authorizationService;
+
+    @Autowired
+    private  UserService userService;
+
+    @Autowired
+    private UserHelper userHelper;
 
     @BeforeEach
     void setUp() {
@@ -50,10 +58,11 @@ class UserServiceTest extends AbstractIntegrationTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername("test-username");
         userDTO.setPassword("test-password");
-        userDTO.setEmail("test-email@test.pl");userService.createUser(userDTO);
+        userDTO.setEmail("test-email@test.pl");
+        userService.createUser(userDTO);
 
         /*toDo*/
-        User user = userRepository.findByUsername("test-username");
+        User user = userHelper.getUserByUsername(userDTO.getUsername());
 
         Assertions.assertNotNull(user);
         Assertions.assertEquals(userDTO.getUsername(), user.getUsername());
@@ -70,7 +79,7 @@ class UserServiceTest extends AbstractIntegrationTest {
         RequestJWT requestJWT = new RequestJWT("username", "password");
         /*userService.createUser(new UserDTO(requestJWT.getUsername(), requestJWT.getPassword(), "email"));*/
 
-        ResponseJWT responseJWT = userService.login(requestJWT);
+        ResponseJWT responseJWT = authorizationService.login(requestJWT);
 
        /* Assertions.assertEquals(responseJWT.getUsername(), SecurityContextHolder.getContext().getAuthentication().getName());*/
     }

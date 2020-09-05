@@ -1,15 +1,15 @@
 package app.core.controller;
 
-import app.core.entity.Payment;
-import app.core.entity.dto.*;
+import app.core.entity.dto.PaymentResponseDTO;
+import app.core.entity.type.PaymentType;
 import app.core.service.PayUService;
 import app.core.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Karol Bąk
@@ -23,24 +23,13 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final PayUService payUService;
 
-    @PostMapping
-    public PaymentResponseDTO createPayment(@RequestBody PaymentDTO paymentDTO) {
-       return paymentService.createNewPayment(paymentDTO);
-    }
+ /*   @GetMapping("/{orderId}")
+    public Payment getPaymentOrder(@PathVariable Long orderId) {
+        return paymentService.getOrderPayment(orderId);
+    }*/
 
-    @ResponseStatus(HttpStatus.FOUND)
-    @PostMapping("/test")
-    public PayuOrderResponseDTO test () {
-        PayuDTO payuDTO = new PayuDTO();
-        payuDTO.setNotifyUrl("https://your.eshop.com/notify");
-        payuDTO.setCustomerIp("127.0.0.1");
-        payuDTO.setMerchantPosId("393517");
-        payuDTO.setDescription("Test");
-        payuDTO.setCurrencyCode("PLN");
-        payuDTO.setTotalAmount("1");
-        payuDTO.setProducts(Arrays.asList(new PayuProductDTO("test", "1", "1")));
-
-        PayuOrderResponseDTO payuOrderResponseDTO = payUService.createOrderPayu(payuDTO);
-        return  payuOrderResponseDTO;
+    @PostMapping("/{orderId}/{paymentType}")
+    public PaymentResponseDTO createPaymentOrder(@PathVariable Long orderId, @PathVariable PaymentType paymentType) {
+        return paymentService.createNewPayment(orderId, paymentType);
     }
 }

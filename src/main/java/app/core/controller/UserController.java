@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 /**
  * @author Karol Bąk
  */
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/{uuid}/orders/{orderId}")
-    public void userOrders(@PathVariable String uuid, @PathVariable Long orderId){
-        userService.checkAccessUserToOrder(uuid, orderId);
+    public Long navigateToUserOrderId(@PathVariable String uuid, @PathVariable Long orderId) {
+        return userService.getOrderId(uuid, orderId);
     }
 }

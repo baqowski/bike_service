@@ -22,15 +22,9 @@ public class WebSecurityJWTConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .antMatcher("/authorization/**")
                 .authorizeRequests()
-                .antMatchers("/authorization/login", "/authorization/register").permitAll()
-              /*  .antMatchers("/ext/**").permitAll()*/
+                .antMatchers("/**").permitAll()
                 .and()
-                /*.antMatcher("/ext/**")
-                .authorizeRequests()
-                .antMatchers("**").permitAll()
-                .and()*/
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
     }
 }

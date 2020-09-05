@@ -13,4 +13,6 @@ import org.springframework.data.rest.core.config.Projection;
 public interface OrderProductProjection {
 
     Integer getQuantity();
+
+    ProductProjection getProduct();
 }

@@ -2,13 +2,13 @@ package app.jwt.controller;
 
 import app.core.service.UserService;
 import app.jwt.dto.RequestJWT;
+import app.jwt.dto.ResponseJWT;
 import app.jwt.dto.UserDTO;
+import app.jwt.service.AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,19 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthorizationController {
 
     private final UserService userService;
+    private final AuthorizationService authorizationService;
+
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody RequestJWT requestJWT) throws AuthenticationException {
-        log.info("Signing in user: " + requestJWT.getUsername());
-        try {
-            return ResponseEntity.ok(userService.login(requestJWT));
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (AuthenticationException e) {
-            log.info(e.getMessage());
-            return ResponseEntity.unprocessableEntity().body("Błędny login lub hasło");
-        }
-
+    public ResponseJWT login(@RequestBody RequestJWT requestJWT) throws AuthenticationException {
+        log.info("Attempt to login user: " + requestJWT.getUsername());
+        return authorizationService.login(requestJWT);
     }
 
     @PostMapping("/register")
@@ -43,9 +37,9 @@ public class AuthorizationController {
         userService.createUser(userDTO);
     }
 
-    @PostMapping("/logout")
+   /* @PostMapping("/logout")
     @ResponseStatus(HttpStatus.OK)
     public void logout() {
         userService.logout();
-    }
+    }*/
 }

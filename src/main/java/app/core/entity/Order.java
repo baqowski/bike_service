@@ -1,5 +1,6 @@
 package app.core.entity;
 
+import app.core.entity.type.OrderServiceType;
 import app.core.entity.type.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "user_order")
-@ToString(exclude = "deliveryOrder")
+@ToString(exclude = {"deliveryOrder", "payment"})
 public class Order {
 
     @Id
@@ -40,7 +41,6 @@ public class Order {
 
     @OneToOne(mappedBy = "order")
     private Payment payment;
-
 
     @ManyToOne
     private DeliveryOrder deliveryOrder;

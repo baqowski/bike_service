@@ -1,7 +1,6 @@
 package app.core.projection;
 
 import app.core.entity.Order;
-import app.core.entity.User;
 import app.core.entity.type.OrderStatus;
 import org.springframework.data.rest.core.config.Projection;
 
@@ -22,7 +21,13 @@ public interface OrderProjection {
 
     BigDecimal getAmount();
 
-    User getUser();
+    /*User getUser();*/
 
-    /*UserProjection getUser();*/
+    /*List<OrderProductProjection> getProducts();
+
+    DeliveryOrderProjection getDeliveryOrder();
+
+    PaymentProjection getPayment();
+
+    UserProjection getUser();*/
 }

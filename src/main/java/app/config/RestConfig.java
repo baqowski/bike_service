@@ -1,9 +1,6 @@
 package app.config;
 
-import app.core.entity.Delivery;
-import app.core.entity.Order;
-import app.core.entity.Product;
-import app.core.entity.User;
+import app.core.entity.*;
 import app.core.projection.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -21,14 +18,28 @@ public class RestConfig implements RepositoryRestConfigurer {
                 Product.class,
                 User.class,
                 Order.class,
-                Delivery.class
+                Delivery.class,
+                Order.class,
+                DeliveryOrder.class,
+                OrderProduct.class,
+                ProductCategory.class,
+                Role.class,
+                Payment.class,
+                DeliveryAddress.class
         );
-
         config.getProjectionConfiguration()
                 .addProjection(UserProjection.class)
                 .addProjection(OrderProjection.class)
                 .addProjection(ProductProjection.class)
                 .addProjection(OrderProductProjection.class)
                 .addProjection(UserRoleProjection.class);
+
+        config.getCorsRegistry()
+                .addMapping("/api/**")
+                .allowedOrigins("*")
+                .allowedMethods("OPTIONS", "HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+
     }
 }
