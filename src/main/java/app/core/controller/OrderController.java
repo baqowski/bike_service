@@ -8,8 +8,11 @@ import app.core.service.OrderService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 /**
  * @author Karol Bąk
  */
@@ -27,6 +30,7 @@ public class OrderController {
        return orderService.registerNewOrder(orderDTO);
     }
 
+    @PostAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("{/orderId}")
     public Order getOrderById(@PathVariable Long orderId) {
         return orderRepository.findById(orderId).orElseThrow();
@@ -37,6 +41,12 @@ public class OrderController {
     public OrderDTO getOrderProducts(@PathVariable Long orderId) throws NotFoundException {
         /*return orderService.getUserOrderDTO(orderId);*/
         return null;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{uuid}")
+    public List<Order> getUserOrders(@PathVariable String uuid) {
+        return orderRepository.findAllByUser_Uuid(uuid);
     }
 
     @PostMapping("/{orderId}/payments")

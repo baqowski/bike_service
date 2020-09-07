@@ -30,7 +30,7 @@ public class RestConfig implements RepositoryRestConfigurer {
         config.getProjectionConfiguration()
                 .addProjection(UserProjection.class)
                 .addProjection(OrderProjection.class)
-                .addProjection(ProductProjection.class)
+                .addProjection(ProductFullProjection.class)
                 .addProjection(OrderProductProjection.class)
                 .addProjection(UserRoleProjection.class);
 

@@ -36,4 +36,6 @@ public class ProductExternalController {
     public List<Product> getProductsByCategories(@PathVariable String categoryName) {
         return productRepository.findAllByProductCategory_CategoryName(categoryName).orElseThrow(() -> new ProductException("Brak produktów dla takiej kategori"));
     }
+
+
 }
