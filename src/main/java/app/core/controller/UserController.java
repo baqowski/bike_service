@@ -1,6 +1,8 @@
 package app.core.controller;
 
+import app.core.entity.Order;
 import app.core.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/{uuid}/orders/{orderId}")
-    public Long navigateToUserOrderId(@PathVariable String uuid, @PathVariable Long orderId) {
-        return userService.getOrderId(uuid, orderId);
+    public Order getUserOrderId(@PathVariable String uuid, @PathVariable Long orderId) throws JsonProcessingException {
+        return userService.findUserOrder(uuid, orderId);
     }
 }

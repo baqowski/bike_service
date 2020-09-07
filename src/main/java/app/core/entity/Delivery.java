@@ -23,6 +23,7 @@ public class Delivery {
     private BigDecimal cost;
 
     @OneToMany(mappedBy = "delivery")
+    /*@JsonBackReference*/
     private List<DeliveryOrder> deliveryOrders;
 
 

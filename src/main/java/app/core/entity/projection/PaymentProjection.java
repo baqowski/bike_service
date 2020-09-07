@@ -1,4 +1,4 @@
-package app.core.projection;
+package app.core.entity.projection;
 
 import app.core.entity.Payment;
 import app.core.entity.type.PaymentStatus;

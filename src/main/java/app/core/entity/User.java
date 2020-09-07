@@ -1,7 +1,6 @@
 package app.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,13 +42,15 @@ public class User extends UserSuperclass implements UserDetails, Serializable  {
     private String password;
 
     @ManyToOne
+/*    @JsonBackReference*/
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties
+    /*@JsonBackReference*/
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
+    /*@JsonBackReference*/
     private List<UserAddress> userAddresses;
 
     @Override

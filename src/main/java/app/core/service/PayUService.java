@@ -2,13 +2,12 @@ package app.core.service;
 
 import app.core.entity.dto.PayuDTO;
 import app.core.entity.dto.PayuOrderResponseDTO;
+import app.core.entity.dto.PayuStatusDTO;
 import app.jwt.dto.PayUResponseAuthDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,5 +52,15 @@ public class PayUService {
         headers.add("authorization", payUResponseAuthDTO.getToken_type() + " " + payUResponseAuthDTO.getAccess_token());
         HttpEntity<PayuDTO> request = new HttpEntity<>(payuDTO, headers);
         return restTemplate.postForObject(hostUrl + "/api/v2_1/orders", request, PayuOrderResponseDTO.class);
+    }
+
+    public ResponseEntity<PayuStatusDTO> checkOrderStatus(String orderId) {
+        PayUResponseAuthDTO payUResponseAuthDTO = authorizeWithPayU();
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("authorization", payUResponseAuthDTO.getToken_type() + " " + payUResponseAuthDTO.getAccess_token());
+        HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+        return restTemplate.exchange(hostUrl + "/api/v2_1/orders/"+ orderId, HttpMethod.GET, requestEntity, PayuStatusDTO.class);
     }
 }

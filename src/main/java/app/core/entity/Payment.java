@@ -2,7 +2,6 @@ package app.core.entity;
 
 import app.core.entity.type.PaymentStatus;
 import app.core.entity.type.PaymentType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -30,8 +29,9 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    @JsonIgnore
+/*    @JsonIgnore*/
     @OneToOne
+/*    @JsonIgnoreProperties*/
     private Order order;
 
     public Payment(Order order, PaymentType paymentType) {

@@ -2,8 +2,8 @@ package app.core.service;
 
 import app.core.entity.Product;
 import app.core.entity.dto.ProductDTO;
+import app.core.entity.repository.ProductRepository;
 import app.core.exception.ProductException;
-import app.core.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

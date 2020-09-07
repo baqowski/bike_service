@@ -1,4 +1,4 @@
-package app.core.repository;
+package app.core.entity.repository;
 
 import app.core.entity.Delivery;
 import org.springframework.data.repository.PagingAndSortingRepository;

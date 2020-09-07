@@ -1,4 +1,4 @@
-package app.core.projection;
+package app.core.entity.projection;
 
 import app.core.entity.DeliveryAddress;
 import org.springframework.data.rest.core.config.Projection;

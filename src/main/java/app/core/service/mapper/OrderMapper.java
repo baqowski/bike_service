@@ -3,9 +3,10 @@ package app.core.service.mapper;
 import app.core.entity.*;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.dto.ProductDTO;
+import app.core.entity.repository.*;
 import app.core.entity.type.OrderStatus;
 import app.core.exception.ProductException;
-import app.core.repository.*;
+import app.core.service.helper.UserHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,13 @@ public class OrderMapper implements DtoMapper<Order, OrderDTO> {
     private final DeliveryAddressRepository deliveryAddressRepository;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
+    private final UserHelper userHelper;
 
     @Override
     @Transactional
     public Order map(OrderDTO dto) {
         Order order = new Order();
-
+        orderRepository.save(order);
         toOrderProductList(dto.getProducts(), order);
 
         DeliveryOrder deliveryOrder = new DeliveryOrder(dto.getDeliveryOrder().getDelivery(),
@@ -43,7 +45,9 @@ public class OrderMapper implements DtoMapper<Order, OrderDTO> {
         order.setAmount(dto.getAmount());
         order.setPayment(paymentRepository.save(payment));
         order.setOrderStatus(OrderStatus.CREATED_BY_CLIENT);
-        return orderRepository.save(order);
+        order.setUser(userHelper.getUserFormSecurityContext());
+        payment.setOrder(orderRepository.save(order));
+        return order;
     }
 
 

@@ -1,6 +1,8 @@
-package app.core.projection;
+package app.core.entity.projection;
 
+import app.core.entity.Order;
 import app.core.entity.OrderProduct;
+import app.core.entity.Product;
 import org.springframework.data.rest.core.config.Projection;
 
 /**
@@ -14,5 +16,7 @@ public interface OrderProductProjection {
 
     Integer getQuantity();
 
-    ProductProjection getProduct();
+    /*ProductProjection getProduct();*/
+    Product getProduct();
+    Order getOrder();
 }

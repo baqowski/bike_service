@@ -1,4 +1,4 @@
-package app.core.repository;
+package app.core.entity.repository;
 
 import app.core.entity.Product;
 import org.springframework.data.repository.CrudRepository;

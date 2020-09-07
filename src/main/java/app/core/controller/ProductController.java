@@ -1,8 +1,8 @@
 package app.core.controller;
 
 import app.core.entity.dto.ProductDTO;
+import app.core.entity.repository.ProductRepository;
 import app.core.exception.ProductException;
-import app.core.repository.ProductRepository;
 import app.core.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,19 +2,16 @@ package app.core.service;
 
 import app.core.entity.Order;
 import app.core.entity.Payment;
-import app.core.entity.dto.PaymentDTO;
 import app.core.entity.dto.PaymentResponseDTO;
 import app.core.entity.dto.PayuDTO;
 import app.core.entity.dto.PayuOrderResponseDTO;
+import app.core.entity.repository.PaymentRepository;
+import app.core.entity.type.PaymentStatus;
 import app.core.entity.type.PaymentType;
-import app.core.exception.OrderException;
-import app.core.repository.PaymentRepository;
 import app.core.service.helper.OrderHelper;
 import app.core.service.helper.PaymentHelper;
-import app.core.service.mapper.DtoMapper;
 import app.core.service.mapper.payu.PayuMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +22,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-@PropertySource("classpath:payu.properties")
-public class PaymentService implements DtoMapper<PaymentDTO, Payment> {
+public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final PayUService payUService;
@@ -35,8 +31,8 @@ public class PaymentService implements DtoMapper<PaymentDTO, Payment> {
     private final PaymentHelper paymentHelper;
 
     @Transactional
-    public PaymentResponseDTO createNewPayment(Long orderId, PaymentType paymentType) {
-        determinePayment(orderId, paymentType);
+    public PaymentResponseDTO createNewPaymentOrUpdateExisting(Long orderId, PaymentType paymentType) {
+        checkIfExist(orderId, paymentType);
 
         Order order = orderHelper.getOrderById(orderId);
         Payment payment = order.getPayment();
@@ -49,25 +45,10 @@ public class PaymentService implements DtoMapper<PaymentDTO, Payment> {
             payment.setPayuOrderId(payuOrderResponseDTO.getOrderId());
         }
 
+        payment.setPaymentStatus(PaymentStatus.STARTED);
         paymentRepository.save(payment);
         paymentResponseDTO.setPaymentId(payment.getId());
         return paymentResponseDTO;
-    }
-
-
-    public Payment getOrderPayment(Long orderId) {
-        return paymentRepository.findByOrder_Id(orderId)
-                .orElseThrow(() -> new OrderException("Brak płatności dla tego zamówienia"));
-    }
-
-    @Override
-    public PaymentDTO map(Payment payment) {
-        return PaymentDTO.builder()
-                .orderId(payment.getId())
-                .payuOrderId(payment.getPayuOrderId())
-                .paymentType(payment.getPaymentType())
-                .paymentStatus(payment.getPaymentStatus())
-                .build();
     }
 
 
@@ -81,7 +62,7 @@ public class PaymentService implements DtoMapper<PaymentDTO, Payment> {
         paymentRepository.save(payment);
     }
 
-    private void determinePayment(Long orderId, PaymentType paymentType) {
+    private void checkIfExist(Long orderId, PaymentType paymentType) {
         paymentHelper.paymentAlreadyFinished(orderId);
         Order order = orderHelper.getOrderById(orderId);
         Optional.ofNullable(order.getPayment()).ifPresentOrElse(

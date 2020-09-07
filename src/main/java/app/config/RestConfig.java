@@ -1,7 +1,7 @@
 package app.config;
 
 import app.core.entity.*;
-import app.core.projection.*;
+import app.core.entity.projection.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;

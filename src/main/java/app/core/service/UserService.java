@@ -2,10 +2,10 @@ package app.core.service;
 
 import app.core.entity.Order;
 import app.core.entity.User;
+import app.core.entity.repository.OrderRepository;
+import app.core.entity.repository.RoleRepository;
+import app.core.entity.repository.UserRepository;
 import app.core.exception.ForbiddenException;
-import app.core.repository.OrderRepository;
-import app.core.repository.RoleRepository;
-import app.core.repository.UserRepository;
 import app.core.service.helper.OrderHelper;
 import app.jwt.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -49,14 +50,15 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Long getOrderId(String uuid, Long orderId) {
+    @Transactional
+    public Order findUserOrder(String uuid, Long orderId) {
         User user = orderHelper.getUserByUuid(uuid);
         List<Order> userOrders = orderRepository.getAllByUser_Id(user.getId());
         Order order = orderHelper.getOrderById(orderId);
         if ("ROLE_USER".equals(user.getRole().getName()) && !userOrders.isEmpty() && !userOrders.contains(order)) {
             throw new ForbiddenException("Brak uprawnnień");
         }
-        return orderHelper.getOrderById(orderId).getId();
+        return order;
     }
 
 

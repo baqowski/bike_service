@@ -1,4 +1,4 @@
-package app.core.projection;
+package app.core.entity.projection;
 
 import app.core.entity.Role;
 import app.core.entity.User;

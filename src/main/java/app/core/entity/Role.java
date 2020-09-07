@@ -31,6 +31,7 @@ public class Role implements GrantedAuthority {
 
     /*@ToString.Exclude*/
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+/*    @JsonBackReference*/
     private List<User> users;
 
     public Role(String name) {

@@ -1,9 +1,9 @@
 package app.core.service.helper;
 
 import app.core.entity.Payment;
+import app.core.entity.repository.PaymentRepository;
 import app.core.entity.type.PaymentStatus;
 import app.core.exception.payment.PaymentAlreadyFinishedException;
-import app.core.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

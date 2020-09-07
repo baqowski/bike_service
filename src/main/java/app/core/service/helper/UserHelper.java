@@ -1,8 +1,8 @@
 package app.core.service.helper;
 
 import app.core.entity.User;
+import app.core.entity.repository.UserRepository;
 import app.core.exception.UserNotFoundException;
-import app.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

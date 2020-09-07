@@ -2,7 +2,7 @@ package app.core.service.mapper;
 
 import app.core.entity.DeliveryAddress;
 import app.core.entity.dto.OrderDTO;
-import app.core.repository.DeliveryAddressRepository;
+import app.core.entity.repository.DeliveryAddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

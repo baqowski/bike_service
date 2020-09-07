@@ -1,5 +1,6 @@
 package app.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@ToString(exclude = {"order", "product"})
+@ToString(exclude = {"product"})
 public class OrderProduct {
 
     @Id
@@ -22,6 +23,8 @@ public class OrderProduct {
     private Integer quantity;
 
     @ManyToOne
+/*    @JsonManagedReference*/
+    @JsonIgnore
     private Order order;
 
     @ManyToOne

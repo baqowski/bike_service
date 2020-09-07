@@ -1,6 +1,6 @@
-package app.core.repository;
+package app.core.entity.repository;
 
-import app.core.entity.DeliveryOrder;
+import app.core.entity.DeliveryAddress;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -8,5 +8,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author Karol Bąk
  */
 @RepositoryRestResource
-public interface DeliveryOrderRepository extends CrudRepository<DeliveryOrder, Long> {
+public interface DeliveryAddressRepository extends CrudRepository<DeliveryAddress, Long> {
 }

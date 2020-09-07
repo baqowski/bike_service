@@ -20,6 +20,7 @@ public class DeliveryAddress extends AddressSuperclass {
     private Long id;
 
     @OneToOne(mappedBy = "deliveryAddress")
+    /*@JsonBackReference*/
     private DeliveryOrder deliveryOrder;
 
 

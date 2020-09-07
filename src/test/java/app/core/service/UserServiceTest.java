@@ -2,8 +2,8 @@ package app.core.service;
 
 import app.bike_app.AbstractIntegrationTest;
 import app.core.entity.User;
-import app.core.repository.RoleRepository;
-import app.core.repository.UserRepository;
+import app.core.entity.repository.RoleRepository;
+import app.core.entity.repository.UserRepository;
 import app.core.service.helper.UserHelper;
 import app.jwt.dto.RequestJWT;
 import app.jwt.dto.ResponseJWT;

@@ -1,4 +1,4 @@
-package app.core.projection;
+package app.core.entity.projection;
 
 import app.core.entity.DeliveryOrder;
 import org.springframework.data.rest.core.config.Projection;
@@ -13,8 +13,6 @@ import org.springframework.data.rest.core.config.Projection;
 public interface DeliveryOrderProjection {
 
     Long getId();
-
-    /*List<OrderProjection> getOrders();*/
 
     DeliveryProjection getDelivery();
 

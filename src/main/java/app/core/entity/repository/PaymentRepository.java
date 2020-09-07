@@ -1,4 +1,4 @@
-package app.core.repository;
+package app.core.entity.repository;
 
 import app.core.entity.Payment;
 import app.core.entity.type.PaymentStatus;

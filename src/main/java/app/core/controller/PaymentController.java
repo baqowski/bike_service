@@ -23,13 +23,9 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final PayUService payUService;
 
- /*   @GetMapping("/{orderId}")
-    public Payment getPaymentOrder(@PathVariable Long orderId) {
-        return paymentService.getOrderPayment(orderId);
-    }*/
 
     @PostMapping("/{orderId}/{paymentType}")
     public PaymentResponseDTO createPaymentOrder(@PathVariable Long orderId, @PathVariable PaymentType paymentType) {
-        return paymentService.createNewPayment(orderId, paymentType);
+        return paymentService.createNewPaymentOrUpdateExisting(orderId, paymentType);
     }
 }

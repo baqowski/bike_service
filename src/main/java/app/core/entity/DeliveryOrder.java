@@ -21,12 +21,15 @@ public class DeliveryOrder {
     private Long id;
 
     @OneToMany(mappedBy = "deliveryOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    /*@JsonBackReference*/
     private List<Order> orders;
 
     @ManyToOne
+    /*@JsonManagedReference*/
     private Delivery delivery;
 
     @OneToOne
+   /* @JsonManagedReference*/
     private DeliveryAddress deliveryAddress;
 
     public DeliveryOrder(Delivery delivery, DeliveryAddress deliveryAddress) {

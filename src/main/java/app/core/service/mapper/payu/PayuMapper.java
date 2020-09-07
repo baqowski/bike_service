@@ -20,15 +20,13 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Service
-public class PayuMapper implements PayuDtoMapper {
+public class PayuMapper {
 
     @Value("${payu.sandbox.clientId}")
     private String clientId;
 
     private final OrderHelper orderHelper;
 
-
-    @Override
     public PayuDTO map(Order order) {
         PayuDTO payuDTO = new PayuDTO();
 

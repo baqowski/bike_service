@@ -1,17 +1,17 @@
-package app.core.repository;
+package app.core.entity.repository;
 
-import app.core.entity.Role;
+import app.core.entity.OrderProduct;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.util.List;
 
 /**
  * @author Karol Bąk
  */
-
 @RepositoryRestResource
 /*@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")*/
-public interface RoleRepository extends CrudRepository<Role, Long> {
+public interface OrderProductRepository extends CrudRepository<OrderProduct, Long> {
 
-    Role findByName(String name);
-
+    List<OrderProduct> findAllByOrder_Id(Long id);
 }

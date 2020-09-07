@@ -1,8 +1,8 @@
 package app.core.controller.ext;
 
 import app.core.entity.Product;
+import app.core.entity.repository.ProductRepository;
 import app.core.exception.ProductException;
-import app.core.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package app.core.projection;
+package app.core.entity.repository;
 
 import app.core.entity.ProductCategory;
 import org.springframework.data.repository.CrudRepository;
