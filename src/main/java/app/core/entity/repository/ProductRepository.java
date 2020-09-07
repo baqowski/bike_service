@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Karol Bąk
@@ -17,6 +18,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     Product findByName(String name);
 
-    List<Product> findAllByProductCategory_CategoryName(String name);
+    Optional<List<Product>> findAllByProductCategory_CategoryName(String name);
 
 }

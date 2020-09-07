@@ -32,8 +32,8 @@ public class ProductExternalController {
                 .orElseThrow(() -> new ProductException("Brak produktu o takim id:" + productId));
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+    @GetMapping("/{categoryName}")
+    public List<Product> getProductsByCategories(@PathVariable String categoryName) {
+        return productRepository.findAllByProductCategory_CategoryName(categoryName).orElseThrow(() -> new ProductException("Brak produktów dla takiej kategori"));
     }
 }
