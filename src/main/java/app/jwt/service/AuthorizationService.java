@@ -38,7 +38,7 @@ public class AuthorizationService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
-            throw new ForbiddenException("Niepoprawna nazwa uzytkownika lub haslo. Sproboj ponownie");
+            throw new ForbiddenException("Niepoprawna nazwa użytkownika lub hasło. Spróbuj ponownie");
         }
         String uuid = userHelper.getUserByUsername(requestJWT.getUsername()).getUuid();
 
