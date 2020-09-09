@@ -28,4 +28,9 @@ public class PaymentController {
     public PaymentResponseDTO createPaymentOrder(@PathVariable Long orderId, @PathVariable PaymentType paymentType) {
         return paymentService.createNewPaymentOrUpdateExisting(orderId, paymentType);
     }
+
+/*    @PatchMapping("/{orderId}")
+    public PaymentResponseDTO changePaymentForm(@PathVariable Long orderId, @RequestBody PaymentDTO paymentDTO) {
+        return paymentService.updatePayment(orderId, paymentDTO);
+    }*/
 }

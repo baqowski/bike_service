@@ -1,6 +1,5 @@
 package app.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,7 +22,7 @@ public class Delivery {
     private BigDecimal cost;
 
     @OneToMany(mappedBy = "delivery")
-    @JsonBackReference
+    /*@JsonBackReference*/
     private List<DeliveryOrder> deliveryOrders;
 
 

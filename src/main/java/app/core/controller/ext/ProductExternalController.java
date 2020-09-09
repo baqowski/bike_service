@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,9 +28,10 @@ public class ProductExternalController {
     }
 
     @GetMapping("/{productId}")
-    public Product getProductById(@PathVariable Long productId) {
-        return productRepository.findById(productId)
+    public Product getProductById(@PathVariable Long productId) throws IOException {
+        Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductException("Brak produktu o takim id:" + productId));
+        return product;
     }
 
     @GetMapping("/search/{categoryName}")

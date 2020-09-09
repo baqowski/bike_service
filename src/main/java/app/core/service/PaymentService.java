@@ -2,6 +2,7 @@ package app.core.service;
 
 import app.core.entity.Order;
 import app.core.entity.Payment;
+import app.core.entity.dto.PaymentDTO;
 import app.core.entity.dto.PaymentResponseDTO;
 import app.core.entity.dto.PayuDTO;
 import app.core.entity.dto.PayuOrderResponseDTO;
@@ -35,7 +36,7 @@ public class PaymentService {
         checkIfExist(orderId, paymentType);
 
         Order order = orderHelper.getOrderById(orderId);
-        Payment payment = order.getPayment();
+        Payment payment = orderHelper.getPaymentByOrderId(orderId);
 
         PaymentResponseDTO paymentResponseDTO = new PaymentResponseDTO();
         if (PaymentType.PAYU.equals(paymentType)) {
@@ -51,6 +52,18 @@ public class PaymentService {
         return paymentResponseDTO;
     }
 
+
+    @Transactional
+    public PaymentResponseDTO updatePayment(Long orderId, PaymentDTO paymentDTO) {
+        Order order = orderHelper.getOrderById(orderId);
+        Payment payment = paymentHelper.getPaymentById(order.getPayment().getId());
+        paymentHelper.validate(payment);
+        payment.setType(paymentDTO.getPaymentType());
+
+        PaymentResponseDTO paymentResponse = payByPayU(order, payment);
+        paymentRepository.save(payment);
+        return paymentResponse;
+    }
 
     private void updateExistingPayment(Payment payment, PaymentType type) {
         payment.setType(type);
@@ -75,5 +88,16 @@ public class PaymentService {
         );
     }
 
+
+    private PaymentResponseDTO payByPayU(Order order, Payment payment) {
+        PaymentResponseDTO paymentResponseDTO = new PaymentResponseDTO();
+        if (PaymentType.PAYU.equals(payment.getType())) {
+            PayuDTO payuDTO = payuMapper.map(order);
+            PayuOrderResponseDTO payuOrderResponseDTO = payUService.createOrderPayu(payuDTO);
+            paymentResponseDTO.setRedirectUri(payuOrderResponseDTO.getRedirectUri());
+            payment.setPayuOrderId(payuOrderResponseDTO.getOrderId());
+        }
+        return paymentResponseDTO;
+    }
 
 }

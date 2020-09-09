@@ -1,6 +1,9 @@
 package app.core.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,8 +14,7 @@ import java.util.List;
  */
 @Entity
 @Data
-/*@AllArgsConstructor
-@NoArgsConstructor*/
+@ToString(exclude = "embedded")
 public class ProductCategory {
 
     @Id
@@ -22,9 +24,11 @@ public class ProductCategory {
     private String categoryName;
 
     @OneToOne
+
     private ProductCategory embedded;
 
-    @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "productCategory")
+    @JsonManagedReference
     private List<Product> products;
 
     public void setProducts(List<Product> products) {

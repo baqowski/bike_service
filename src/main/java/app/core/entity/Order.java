@@ -36,8 +36,8 @@ public class Order {
 
     private BigDecimal amount;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @OneToMany(mappedBy = "order" /*cascade = CascadeType.ALL, orphanRemoval = true*/)
+    @JsonManagedReference
     private List<OrderProduct> products;
 
     @OneToOne(mappedBy = "order")
@@ -45,10 +45,11 @@ public class Order {
     private Payment payment;
 
     @ManyToOne
-    @JsonManagedReference
+    /*@JsonManagedReference*/
+    @JsonBackReference
     private DeliveryOrder deliveryOrder;
 
     @ManyToOne
-    @JsonManagedReference
+    /*@JsonManagedReference*/
     private User user;
 }

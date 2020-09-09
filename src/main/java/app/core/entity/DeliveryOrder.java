@@ -1,6 +1,5 @@
 package app.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,15 +22,16 @@ public class DeliveryOrder {
     private Long id;
 
     @OneToMany(mappedBy = "deliveryOrder", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Order> orders;
 
     @ManyToOne
     @JsonManagedReference
+    /*@JsonBackReference*/
     private Delivery delivery;
 
     @OneToOne
-    @JsonManagedReference
+    /*@JsonManagedReference*/
     private DeliveryAddress deliveryAddress;
 
     public DeliveryOrder(Delivery delivery, DeliveryAddress deliveryAddress) {

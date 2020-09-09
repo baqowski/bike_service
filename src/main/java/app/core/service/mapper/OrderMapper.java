@@ -44,13 +44,9 @@ public class OrderMapper implements DtoMapper<Order, OrderDTO> {
         DeliveryOrder deliveryOrder = new DeliveryOrder(delivery, deliveryAddressRepository.save(deliveryAddress));
 
         order.setDeliveryOrder(deliveryOrderRepository.save(deliveryOrder));
-
-        Payment payment = new Payment();
         order.setAmount(dto.getAmount());
-        order.setPayment(paymentRepository.save(payment));
         order.setOrderStatus(OrderStatus.CREATED_BY_CLIENT);
         order.setUser(userHelper.getUserFormSecurityContext());
-        payment.setOrder(orderRepository.save(order));
         return order;
     }
 

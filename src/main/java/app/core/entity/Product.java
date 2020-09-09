@@ -1,8 +1,6 @@
 package app.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,13 +43,10 @@ public class Product {
     private String producer;
 
     @ManyToOne
-    @JsonIgnore
-    @JsonManagedReference
+    @JsonBackReference
     private ProductCategory productCategory;
 
-    @OneToMany(mappedBy = "product")
-    @JsonIgnore
-    @JsonBackReference
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<OrderProduct> orders;
 
     public Product(String name, BigDecimal price) {

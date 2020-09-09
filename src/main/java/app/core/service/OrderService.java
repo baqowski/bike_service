@@ -6,6 +6,7 @@ import app.core.entity.Payment;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.dto.ProductDTO;
 import app.core.entity.repository.OrderProductRepository;
+import app.core.entity.repository.OrderRepository;
 import app.core.entity.repository.PaymentRepository;
 import app.core.entity.type.PaymentType;
 import app.core.exception.ForbiddenException;
@@ -32,6 +33,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final UserHelper userHelper;
     private final PaymentRepository paymentRepository;
+    private final OrderRepository orderRepository;
 
 
 

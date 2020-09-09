@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @author Karol Bąk
  */
-class PayUServiceTest extends AbstractIntegrationTest {
+class PaymentServiceTest extends AbstractIntegrationTest {
 
     @Autowired
     private PayUService payUService;
@@ -98,15 +98,32 @@ class PayUServiceTest extends AbstractIntegrationTest {
         PayuDTO payuDTO = payuMapper.map(order);
 
         //then
+        Assertions.assertNotNull(payuDTO);
+        Assertions.assertNotNull(payuDTO.getProducts());
+        Assertions.assertNotNull(payuDTO.getBuyer());
+        Assertions.assertEquals(order.getAmount().toString(), payuDTO.getTotalAmount());
         Assertions.assertEquals(order.getProducts().size(), payuDTO.getProducts().size());
         Assertions.assertEquals(order.getProducts().get(0).getProduct().getName(), payuDTO.getProducts().get(0).getName());
         Assertions.assertEquals(order.getProducts().get(1).getProduct().getName(), payuDTO.getProducts().get(1).getName());
-        Assertions.assertEquals(BigDecimal.valueOf(23), order.getAmount());
-        Assertions.assertEquals(order.getAmount().toString(), payuDTO.getTotalAmount());
+        Assertions.assertEquals(order.getProducts().get(0).getQuantity().toString(), payuDTO.getProducts().get(0).getQuantity());
+        Assertions.assertEquals(order.getProducts().get(1).getQuantity().toString(), payuDTO.getProducts().get(1).getQuantity());
+    }
 
+    @Transactional
+    @Test
+    public void shouldCalculateOrderAmount() {
+        //given
+        Order order = orderRepository.findAll().iterator().next();
+
+        //when
+        order.setAmount(orderHelper.calculateOrderSummaryPrice(order));
+
+        //then
+        Assertions.assertEquals(BigDecimal.valueOf(23), order.getAmount());
     }
 
     @Test
+    @Transactional
     public void shouldAuthorizeWithPayU() {
         PayUResponseAuthDTO payUResponseAuthDTO = payUService.authorizeWithPayU();
         Assertions.assertNotNull(payUResponseAuthDTO);
@@ -131,10 +148,14 @@ class PayUServiceTest extends AbstractIntegrationTest {
 
     @Transactional
     @Test
-    public void shouldCreateNewPaymentPayu(){
-        Long id = orderRepository.findAll().iterator().next().getId();
-        Payment payment = orderService.createOrUpdateOrderPayment(id, PaymentType.PAYU );
-        PaymentResponseDTO paymentResponseDTO = paymentService.createNewPaymentOrUpdateExisting(id, PaymentType.PAYU);
+    public void shouldCreateNewPaymentPayu() {
+        //given
+        Order order = orderRepository.findAll().iterator().next();
+
+        //when
+        PaymentResponseDTO paymentResponseDTO = paymentService.createNewPaymentOrUpdateExisting(order.getId(), PaymentType.PAYU);
+
+        //then
         Assertions.assertNotNull(paymentResponseDTO);
         Assertions.assertNotNull(paymentResponseDTO.getPaymentId());
         Assertions.assertNotNull(paymentResponseDTO.getRedirectUri());
@@ -150,7 +171,6 @@ class PayUServiceTest extends AbstractIntegrationTest {
         order.setProducts(orderProducts);
         order.setUser(createUser());
         order.setDeliveryOrder(createDeliveryOrder());
-        /*orderRepository.save(order);*/
 
     }
 

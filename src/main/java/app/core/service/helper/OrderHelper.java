@@ -27,9 +27,8 @@ public class OrderHelper {
     private final PaymentRepository paymentRepository;
 
 
-
     public User getUserByUuid(String uuid) {
-        return userRepository.findByUuid(uuid).orElseThrow( ()-> new UsernameNotFoundException("Cant find user"));
+        return userRepository.findByUuid(uuid).orElseThrow(() -> new UsernameNotFoundException("Cant find user"));
     }
 
 
@@ -38,10 +37,10 @@ public class OrderHelper {
     }
 
     public BigDecimal calculateOrderSummaryPrice(Order order) {
-       return order.getProducts().stream()
-               .map(orderProduct -> BigDecimal.valueOf(orderProduct.getQuantity()).multiply(orderProduct.getProduct().getPrice()))
-               .reduce(BigDecimal.ZERO, BigDecimal::add)
-               .add(order.getDeliveryOrder().getDelivery().getCost());
+        return order.getProducts().stream()
+                .map(orderProduct -> BigDecimal.valueOf(orderProduct.getQuantity()).multiply(orderProduct.getProduct().getPrice()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .add(order.getDeliveryOrder().getDelivery().getCost());
     }
 
     public Order getOrderById(Long id) {
@@ -49,9 +48,13 @@ public class OrderHelper {
     }
 
     public Payment getPaymentById(Long id) {
-        return paymentRepository.findById(id).orElseThrow(() -> new PaymentException("Brak płatności o takim numerze"));
+        return paymentRepository.findByOrder_Id(id).orElseThrow(() -> new PaymentException("Brak płatności o takim numerze"));
     }
 
+
+    public Payment getPaymentByOrderId(Long orderId) {
+        return paymentRepository.findByOrder_Id(orderId).orElseThrow(() -> new PaymentException("Brak płatności o takim zamówieniu" + orderId));
+    }
 
     @ExceptionHandler(OrderException.class)
     public void validateOrderPayment(Order order) {

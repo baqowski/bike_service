@@ -1,7 +1,6 @@
 package app.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -24,12 +23,11 @@ public class OrderProduct {
     private Integer quantity;
 
     @ManyToOne
-    @JsonManagedReference
-    @JsonIgnore
+    @JsonBackReference
     private Order order;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private Product product;
 
     public OrderProduct(Product product, Order order, Integer quantity) {

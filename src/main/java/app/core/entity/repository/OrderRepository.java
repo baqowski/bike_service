@@ -22,5 +22,7 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Long>
 
     List<Order> findAllByUser_Uuid(String uuid);
 
+    List<Order> findAll();
+
     /*List<Order> findAll();*/
 }
