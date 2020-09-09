@@ -1,5 +1,6 @@
 package app.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,15 +43,15 @@ public class User extends UserSuperclass implements UserDetails, Serializable  {
     private String password;
 
     @ManyToOne
-/*    @JsonBackReference*/
+    @JsonBackReference
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    /*@JsonBackReference*/
+    @JsonBackReference
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
-    /*@JsonBackReference*/
+    @JsonBackReference
     private List<UserAddress> userAddresses;
 
     @Override

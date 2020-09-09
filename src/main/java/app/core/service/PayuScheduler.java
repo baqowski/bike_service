@@ -30,10 +30,11 @@ public class PayuScheduler {
 
         List<Payment> paymentList = (List<Payment>) paymentRepository.findAll();
         paymentList.forEach(payment -> {
-            if (payment.getPayuOrderId() != null && !PaymentStatus.FINISHED.equals(payment.getPaymentStatus())) {
+            if (payment.getPayuOrderId() != null && !PaymentStatus.FINISHED.equals(payment.getStatus())) {
+                log.info("found payment payu");
                 ResponseEntity<PayuStatusDTO> payuStatusDTO = payUService.checkOrderStatus(payment.getPayuOrderId());
                 if ("SUCCESS".equals(Objects.requireNonNull(payuStatusDTO.getBody()).getStatus().getStatusCode())) {
-                    payment.setPaymentStatus(PaymentStatus.FINISHED);
+                    payment.setStatus(PaymentStatus.FINISHED);
                     paymentRepository.save(payment);
                 }
             }

@@ -7,6 +7,7 @@ import app.core.entity.repository.*;
 import app.core.entity.type.OrderStatus;
 import app.core.exception.ProductException;
 import app.core.service.helper.UserHelper;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +27,21 @@ public class OrderMapper implements DtoMapper<Order, OrderDTO> {
     private final DeliveryOrderRepository deliveryOrderRepository;
     private final DeliveryAddressRepository deliveryAddressRepository;
     private final OrderRepository orderRepository;
+    private final DeliveryRepository deliveryRepository;
     private final PaymentRepository paymentRepository;
     private final UserHelper userHelper;
 
     @Override
     @Transactional
-    public Order map(OrderDTO dto) {
+    public Order map(OrderDTO dto) throws NotFoundException {
         Order order = new Order();
         orderRepository.save(order);
         toOrderProductList(dto.getProducts(), order);
 
-        DeliveryOrder deliveryOrder = new DeliveryOrder(dto.getDeliveryOrder().getDelivery(),
-                deliveryAddressRepository.save(dto.getDeliveryOrder().getDeliveryAddress()));
+        Delivery delivery = deliveryRepository.findById(dto.getDeliveryOrder().getDelivery().getId()).orElseThrow(() -> new NotFoundException("adasda"));
+        DeliveryAddress deliveryAddress = new DeliveryAddress(dto.getDeliveryOrder().getDeliveryAddress());
+
+        DeliveryOrder deliveryOrder = new DeliveryOrder(delivery, deliveryAddressRepository.save(deliveryAddress));
 
         order.setDeliveryOrder(deliveryOrderRepository.save(deliveryOrder));
 
@@ -65,4 +69,6 @@ public class OrderMapper implements DtoMapper<Order, OrderDTO> {
     private OrderProduct toOrderProduct(ProductDTO productDTO, Order order) {
         return orderProductRepository.save(new OrderProduct(toProduct(productDTO), order, productDTO.getQuantity()));
     }
+
+
 }

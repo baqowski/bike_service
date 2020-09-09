@@ -5,6 +5,7 @@ import app.core.entity.Product;
 import app.core.entity.ProductCategory;
 import app.core.entity.repository.ProductCategoryRepository;
 import app.core.entity.repository.ProductRepository;
+import javassist.NotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,11 +33,13 @@ class ProductCategoryServiceTest extends AbstractIntegrationTest {
 
     @AfterEach
     void tearDown() {
+        productRepository.deleteAll();
+        productCategoryRepository.deleteAll();
     }
 
     @Test
     @Transactional
-    public void testCategories() {
+    public void testCategories() throws NotFoundException {
 
         //given
         ProductCategory bike = createProductCategory("Rowery", null);
@@ -51,7 +54,7 @@ class ProductCategoryServiceTest extends AbstractIntegrationTest {
         createProduct("Rower męski", BigDecimal.valueOf(799), forMan);
 
         //then
-        List<Product> manBikes = productRepository.findAllByProductCategory_CategoryName("Męskie");
+        List<Product> manBikes = productRepository.findAllByProductCategory_CategoryName("Męskie").orElseThrow(() -> new NotFoundException("not found"));
         forMan.setProducts(manBikes);
         ProductCategory productCategory = productCategoryRepository.getByCategoryName("Męskie");
         Assertions.assertEquals(3, manBikes.size());

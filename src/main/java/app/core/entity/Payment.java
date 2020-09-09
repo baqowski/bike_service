@@ -2,6 +2,7 @@ package app.core.entity;
 
 import app.core.entity.type.PaymentStatus;
 import app.core.entity.type.PaymentType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -24,22 +25,22 @@ public class Payment {
     private String payuOrderId;
 
     @Enumerated(EnumType.STRING)
-    private PaymentType paymentType;
+    private PaymentType type;
 
     @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
+    private PaymentStatus status;
 
 /*    @JsonIgnore*/
     @OneToOne
-/*    @JsonIgnoreProperties*/
+    @JsonManagedReference
     private Order order;
 
     public Payment(Order order, PaymentType paymentType) {
-        this.paymentType = paymentType;
+        this.type = paymentType;
         this.order = order;
     }
 
     public Payment(PaymentType paymentType) {
-        this.paymentType = paymentType;
+        this.type = paymentType;
     }
 }

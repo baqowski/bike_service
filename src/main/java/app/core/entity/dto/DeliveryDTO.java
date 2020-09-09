@@ -1,7 +1,5 @@
 package app.core.entity.dto;
 
-import app.core.entity.Delivery;
-import app.core.entity.DeliveryAddress;
 import lombok.Data;
 
 /**
@@ -10,7 +8,5 @@ import lombok.Data;
 @Data
 public class DeliveryDTO {
 
-    private Delivery delivery;
-
-    private DeliveryAddress deliveryAddress;
+    private Long id;
 }

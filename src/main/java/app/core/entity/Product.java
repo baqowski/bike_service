@@ -1,10 +1,13 @@
 package app.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -27,7 +30,15 @@ public class Product {
 
     private BigDecimal price;
 
+    private BigDecimal loanDayPrice;
+
+    private LocalDateTime loanStartDate;
+
+    private LocalDateTime loanEndDate;
+
     private String imageUrl;
+
+    private String description;
 
     private String color;
 
@@ -35,10 +46,12 @@ public class Product {
 
     @ManyToOne
     @JsonIgnore
+    @JsonManagedReference
     private ProductCategory productCategory;
 
     @OneToMany(mappedBy = "product")
     @JsonIgnore
+    @JsonBackReference
     private List<OrderProduct> orders;
 
     public Product(String name, BigDecimal price) {

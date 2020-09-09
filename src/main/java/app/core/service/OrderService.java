@@ -12,6 +12,7 @@ import app.core.exception.ForbiddenException;
 import app.core.service.helper.OrderHelper;
 import app.core.service.helper.UserHelper;
 import app.core.service.mapper.OrderMapper;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class OrderService {
 
 
     @Transactional
-    public Long registerNewOrder(OrderDTO orderDTO) {
+    public Long registerNewOrder(OrderDTO orderDTO) throws NotFoundException {
        return orderMapper.map(orderDTO).getId();
     }
 
@@ -44,7 +45,7 @@ public class OrderService {
         Payment payment = new Payment(paymentType);
         paymentRepository.findByOrder_Id(orderId).ifPresentOrElse(
                 (value) -> {
-                    value.setPaymentType(paymentType);
+                    value.setType(paymentType);
                     BeanUtils.copyProperties(value, payment);
                 },
                 () -> {

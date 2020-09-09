@@ -1,6 +1,5 @@
 package app.core.entity.projection;
 
-import app.core.entity.Role;
 import app.core.entity.User;
 import org.springframework.data.rest.core.config.Projection;
 
@@ -13,5 +12,5 @@ import org.springframework.data.rest.core.config.Projection;
 )
 public interface UserRoleProjection {
 
-    Role getRole();
+    RoleProjection getRole();
 }

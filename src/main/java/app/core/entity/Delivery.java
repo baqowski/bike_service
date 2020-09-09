@@ -1,10 +1,9 @@
 package app.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import java.util.List;
 public class Delivery {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String type;
@@ -23,7 +23,7 @@ public class Delivery {
     private BigDecimal cost;
 
     @OneToMany(mappedBy = "delivery")
-    /*@JsonBackReference*/
+    @JsonBackReference
     private List<DeliveryOrder> deliveryOrders;
 
 

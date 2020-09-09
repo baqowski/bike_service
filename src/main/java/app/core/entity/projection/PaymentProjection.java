@@ -18,9 +18,9 @@ public interface PaymentProjection {
 
     String getPayuOrderId();
 
-    PaymentType getPaymentType();
+    PaymentType getType();
 
-    PaymentStatus getPaymentStatus();
+    PaymentStatus getStatus();
 
     OrderProjection getOrder();
 

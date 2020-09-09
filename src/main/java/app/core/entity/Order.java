@@ -2,7 +2,8 @@ package app.core.entity;
 
 import app.core.entity.type.OrderServiceType;
 import app.core.entity.type.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -36,18 +37,18 @@ public class Order {
     private BigDecimal amount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-/*    @JsonBackReference*/
-    @JsonIgnore
+    @JsonBackReference
     private List<OrderProduct> products;
 
     @OneToOne(mappedBy = "order")
+    @JsonBackReference
     private Payment payment;
 
     @ManyToOne
-/*    @JsonManagedReference*/
+    @JsonManagedReference
     private DeliveryOrder deliveryOrder;
 
     @ManyToOne
- /*   @JsonManagedReference*/
+    @JsonManagedReference
     private User user;
 }

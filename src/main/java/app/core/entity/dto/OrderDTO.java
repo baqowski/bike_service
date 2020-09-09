@@ -23,5 +23,6 @@ public class OrderDTO {
 
     private List<ProductDTO> products;
 
-    private DeliveryDTO deliveryOrder;
+    /*private DeliveryDTO deliveryOrder;*/
+    private DeliveryOrderDTO deliveryOrder;
 }

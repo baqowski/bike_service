@@ -1,5 +1,6 @@
 package app.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ public class Role implements GrantedAuthority {
 
     /*@ToString.Exclude*/
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-/*    @JsonBackReference*/
+    @JsonBackReference
     private List<User> users;
 
     public Role(String name) {

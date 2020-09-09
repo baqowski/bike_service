@@ -15,6 +15,6 @@ public interface PaymentRepository extends PagingAndSortingRepository<Payment, L
 
     Optional<Payment> findByOrder_Id(Long id);
 
-    Optional<Payment> findByOrder_IdAndPaymentStatus(Long id, PaymentStatus paymentStatus);
+    Optional<Payment> findByOrder_IdAndStatus(Long id, PaymentStatus status);
 
 }

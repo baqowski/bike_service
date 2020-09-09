@@ -45,7 +45,7 @@ public class PaymentService {
             payment.setPayuOrderId(payuOrderResponseDTO.getOrderId());
         }
 
-        payment.setPaymentStatus(PaymentStatus.STARTED);
+        payment.setStatus(PaymentStatus.STARTED);
         paymentRepository.save(payment);
         paymentResponseDTO.setPaymentId(payment.getId());
         return paymentResponseDTO;
@@ -53,7 +53,7 @@ public class PaymentService {
 
 
     private void updateExistingPayment(Payment payment, PaymentType type) {
-        payment.setPaymentType(type);
+        payment.setType(type);
         paymentRepository.save(payment);
     }
 

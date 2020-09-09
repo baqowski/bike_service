@@ -5,6 +5,7 @@ import app.core.entity.Payment;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.repository.OrderRepository;
 import app.core.service.OrderService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 /**
  * @author Karol Bąk
@@ -27,7 +29,21 @@ public class OrderController {
 
     @PostMapping
     public Long registerNewOrderWithEmptyPayment(@RequestBody OrderDTO orderDTO) {
-       return orderService.registerNewOrder(orderDTO);
+        try {
+            return orderService.registerNewOrder(orderDTO);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        //toDo
+        return null;
+    }
+
+    @GetMapping
+    public List<Order> getAll() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Order> tmp = (List<Order>) orderRepository.findAll();
+        System.out.println(objectMapper.writeValueAsString(tmp));
+        return (List<Order>) orderRepository.findAll();
     }
 
     @PostAuthorize("hasRole('ROLE_ADMIN')")
@@ -51,7 +67,7 @@ public class OrderController {
 
     @PostMapping("/{orderId}/payments")
     public Long getNewPaymentIdCreatedByPaymentType(@PathVariable Long orderId, @RequestBody Payment payment) {
-        return orderService.createOrUpdateOrderPayment(orderId, payment.getPaymentType()).getId();
+        return orderService.createOrUpdateOrderPayment(orderId, payment.getType()).getId();
     }
 
     @GetMapping("/{orderId}/payments/{paymentId}")
