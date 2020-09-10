@@ -1,11 +1,16 @@
 package app.core.entity.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Karol Bąk
  */
 @Data
+@AllArgsConstructor
+@Builder
 public class DeliveryAddressDTO {
 
     private String street;
@@ -17,4 +22,7 @@ public class DeliveryAddressDTO {
     private String city;
 
     private String country;
+
+    public DeliveryAddressDTO() {
+    }
 }

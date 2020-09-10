@@ -27,16 +27,4 @@ public class ProductMapper {
     private OrderProduct toOrderProduct(ProductDTO productDTO,Order order) {
         return new OrderProduct(productService.getProductById(productDTO.getId()), order, productDTO.getQuantity());
     }
-
-
-    public ProductDTO mapOrderProductToProductDTO(OrderProduct orderProduct) {
-        return ProductDTO.builder()
-                .id(orderProduct.getProduct().getId())
-                .name(orderProduct.getProduct().getName())
-                .price(orderProduct.getProduct().getPrice())
-                .quantity(orderProduct.getQuantity())
-                .build();
-    }
-
-
 }

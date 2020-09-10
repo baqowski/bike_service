@@ -18,14 +18,12 @@ public class PaymentDTO {
 
     private Long orderId;
 
+    private Long id;
+
     private String payuOrderId;
 
     private PaymentType paymentType;
 
     private PaymentStatus paymentStatus;
 
-
-    PaymentDTO(PaymentType paymentType) {
-        this.paymentType = paymentType;
-    }
 }

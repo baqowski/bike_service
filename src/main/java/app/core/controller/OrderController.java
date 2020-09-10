@@ -5,6 +5,7 @@ import app.core.entity.Payment;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.repository.OrderRepository;
 import app.core.service.OrderService;
+import app.core.service.mapper.payu.OrderMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author Karol Bąk
  */
@@ -26,24 +29,19 @@ public class OrderController {
 
     private final OrderRepository orderRepository;
     private final OrderService orderService;
+    private final OrderMapper orderMapper;
 
     @PostMapping
     public Long registerNewOrderWithEmptyPayment(@RequestBody OrderDTO orderDTO) {
-        try {
-            return orderService.registerNewOrder(orderDTO);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        //toDo
-        return null;
+        return orderService.registerNewOrder(orderDTO).getId();
     }
 
     @GetMapping
-    public List<Order> getAll() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Order> tmp = (List<Order>) orderRepository.findAll();
-        System.out.println(objectMapper.writeValueAsString(tmp));
-        return (List<Order>) orderRepository.findAll();
+    public List<OrderDTO> getAll() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(this.orderMapper::toDto)
+                .collect(Collectors.toList());
+
     }
 
     @PostAuthorize("hasRole('ROLE_ADMIN')")

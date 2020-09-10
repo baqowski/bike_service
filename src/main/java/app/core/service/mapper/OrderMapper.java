@@ -1,3 +1,4 @@
+/*
 package app.core.service.mapper;
 
 import app.core.entity.*;
@@ -15,9 +16,11 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+*/
 /**
  * @author Karol Bąk
- */
+ *//*
+
 @Service
 @RequiredArgsConstructor
 public class OrderMapper implements DtoMapper<Order, OrderDTO> {
@@ -31,9 +34,12 @@ public class OrderMapper implements DtoMapper<Order, OrderDTO> {
     private final PaymentRepository paymentRepository;
     private final UserHelper userHelper;
 
-    @Override
+
+
+  */
+/*  @Override
     @Transactional
-    public Order map(OrderDTO dto) throws NotFoundException {
+    public Order toEntity(OrderDTO dto) throws NotFoundException {
         Order order = new Order();
         orderRepository.save(order);
         toOrderProductList(dto.getProducts(), order);
@@ -48,11 +54,17 @@ public class OrderMapper implements DtoMapper<Order, OrderDTO> {
         order.setOrderStatus(OrderStatus.CREATED_BY_CLIENT);
         order.setUser(userHelper.getUserFormSecurityContext());
         return order;
+    }*//*
+
+
+
+
+    public OrderDTO mapToDTO (Order order) {
+        return null;
     }
 
-
-
-    private Product toProduct(ProductDTO productDTO) {
+  */
+/*  private Product toProduct(ProductDTO productDTO) {
         return productRepository.findById(productDTO.getId())
                 .orElseThrow(() -> new ProductException("Cant find product by id:" + productDTO.getId()));
     }
@@ -64,7 +76,9 @@ public class OrderMapper implements DtoMapper<Order, OrderDTO> {
 
     private OrderProduct toOrderProduct(ProductDTO productDTO, Order order) {
         return orderProductRepository.save(new OrderProduct(toProduct(productDTO), order, productDTO.getQuantity()));
-    }
+    }*//*
+
 
 
 }
+*/
