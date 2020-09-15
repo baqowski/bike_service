@@ -4,6 +4,7 @@ import app.core.entity.Order;
 import app.core.entity.User;
 import app.core.service.UserService;
 import app.core.service.helper.UserHelper;
+import app.jwt.dto.UserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,13 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public User getUserByUuid() {
-        return userHelper.getUserFormSecurityContext();
+    public UserDTO getUserByUuid() {
+        User user = userHelper.getUserFormSecurityContext();
+        return UserDTO.builder()
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .role(user.getRole())
+                .build();
     }
 
 

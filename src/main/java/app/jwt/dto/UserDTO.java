@@ -1,6 +1,6 @@
 package app.jwt.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import app.core.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +21,6 @@ public class UserDTO {
     private String password;
 
     private String email;
+
+    private Role role;
 }
