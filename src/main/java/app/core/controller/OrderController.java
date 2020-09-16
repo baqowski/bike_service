@@ -44,11 +44,9 @@ public class OrderController {
         orderService.updateOrder(orderId, order);
     }
 
-    /*@PostAuthorize("hasRole('ROLE_ADMIN')")*/
     @GetMapping("/{orderId}")
-    public Order getOrderById(@PathVariable Long orderId)
-    {
-        return orderRepository.findById(orderId).orElseThrow();
+    public OrderDTO getOrderById(@PathVariable Long orderId) {
+        return this.orderMapper.toDto(orderService.getOrderForUserRole(orderId));
     }
 
     @ExceptionHandler(NotFoundException.class)

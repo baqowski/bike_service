@@ -3,6 +3,7 @@ package app.core.service;
 import app.core.entity.Order;
 import app.core.entity.OrderProduct;
 import app.core.entity.Payment;
+import app.core.entity.User;
 import app.core.entity.dto.OrderDTO;
 import app.core.entity.dto.ProductDTO;
 import app.core.entity.repository.OrderProductRepository;
@@ -104,5 +105,23 @@ public class OrderService {
     public void updateOrder(Long orderId, OrderDTO orderDTO) {
         Order order = orderHelper.getOrderById(orderId);
         order.setOrderStatus(orderDTO.getOrderStatus());
+    }
+
+    public Order getOrderForUserRole(Long orderId) {
+        User current = this.userHelper.getUserFormSecurityContext();
+        if ("ROLE_ADMIN".equals(current.getRole().getName()) || "ROLE_WORKER".equals(current.getRole().getName())) {
+            return orderHelper.getOrderById(orderId);
+        }
+        return this.orderContainToUser(orderId, current);
+
+    }
+
+    private Order orderContainToUser(Long orderId, User user) {
+        List<Order> userOrders = orderRepository.getAllByUser_Id(user.getId());
+        Order target = orderHelper.getOrderById(orderId);
+        if (userOrders.contains(target)) {
+            return target;
+        }
+        throw new ForbiddenException("Brak uprawnień do przeglądania treści");
     }
 }
