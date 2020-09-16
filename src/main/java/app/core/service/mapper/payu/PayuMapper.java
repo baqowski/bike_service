@@ -36,7 +36,7 @@ public class PayuMapper {
         payuDTO.setBuyer(clientDTO);
         payuDTO.setProducts(productDTOList);
         payuDTO.setMerchantPosId(clientId);
-        payuDTO.setTotalAmount(mapTotalCostToPayuFormat(orderHelper.calculateOrderSummaryPrice(order)));
+        payuDTO.setTotalAmount(mapTotalCostToPayuFormat(order.getAmount()));
         payuDTO.setDescription("Bike service system");
         payuDTO.setCurrencyCode("PLN");
         payuDTO.setCustomerIp("127.0.0.1");

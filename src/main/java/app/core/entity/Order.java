@@ -5,6 +5,7 @@ import app.core.entity.type.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -17,12 +18,13 @@ import java.util.List;
  * @author Karol Bąk
  */
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "user_order")
 @ToString(exclude = {"deliveryOrder", "payment", "products"})
-public class Order {
+public class Order extends OrderSuperclass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

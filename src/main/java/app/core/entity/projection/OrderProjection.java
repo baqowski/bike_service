@@ -7,6 +7,7 @@ import app.core.entity.type.OrderStatus;
 import org.springframework.data.rest.core.config.Projection;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -26,7 +27,15 @@ public interface OrderProjection {
 
     BigDecimal getAmount();
 
+    Integer getLoanDays();
+
+    LocalDateTime getLoanStart();
+
+    LocalDateTime getLoanTermination();
+
     Payment getPayment();
+
+    String getDescription();
 
     DeliveryOrderProjection getDeliveryOrder();
 

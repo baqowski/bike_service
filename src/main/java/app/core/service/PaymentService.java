@@ -11,6 +11,7 @@ import app.core.entity.type.PaymentStatus;
 import app.core.entity.type.PaymentType;
 import app.core.service.helper.OrderHelper;
 import app.core.service.helper.PaymentHelper;
+import app.core.service.helper.UserHelper;
 import app.core.service.mapper.payu.PayuMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,12 +31,14 @@ public class PaymentService {
     private final PayuMapper payuMapper;
     private final OrderHelper orderHelper;
     private final PaymentHelper paymentHelper;
+    private final UserHelper userHelper;
 
     @Transactional
     public PaymentResponseDTO createNewPaymentOrUpdateExisting(Long orderId, PaymentType paymentType) {
         checkIfExist(orderId, paymentType);
 
         Order order = orderHelper.getOrderById(orderId);
+       /* order.setUser(userHelper.getUserFormSecurityContext());*/
         Payment payment = orderHelper.getPaymentByOrderId(orderId);
 
         PaymentResponseDTO paymentResponseDTO = new PaymentResponseDTO();
@@ -58,7 +61,7 @@ public class PaymentService {
         Order order = orderHelper.getOrderById(orderId);
         Payment payment = paymentHelper.getPaymentById(order.getPayment().getId());
         paymentHelper.validate(payment);
-        payment.setType(paymentDTO.getPaymentType());
+        payment.setType(paymentDTO.getType());
 
         PaymentResponseDTO paymentResponse = payByPayU(order, payment);
         paymentRepository.save(payment);

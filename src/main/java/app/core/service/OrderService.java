@@ -101,4 +101,8 @@ public class OrderService {
                 .build();
     }
 
+    public void updateOrder(Long orderId, OrderDTO orderDTO) {
+        Order order = orderHelper.getOrderById(orderId);
+        order.setOrderStatus(orderDTO.getOrderStatus());
+    }
 }

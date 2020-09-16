@@ -22,8 +22,8 @@ public class PaymentDTO {
 
     private String payuOrderId;
 
-    private PaymentType paymentType;
+    private PaymentType type;
 
-    private PaymentStatus paymentStatus;
+    private PaymentStatus status;
 
 }

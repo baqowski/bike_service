@@ -6,15 +6,11 @@ import app.core.entity.dto.OrderDTO;
 import app.core.entity.repository.OrderRepository;
 import app.core.service.OrderService;
 import app.core.service.mapper.payu.OrderMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,12 +37,17 @@ public class OrderController {
         List<Order> orders = orderRepository.findAll();
         return orders.stream().map(this.orderMapper::toDto)
                 .collect(Collectors.toList());
-
     }
 
-    @PostAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("{/orderId}")
-    public Order getOrderById(@PathVariable Long orderId) {
+    @PutMapping("/{orderId}")
+    public void updateOrder(@PathVariable Long orderId, @RequestBody OrderDTO order) {
+        orderService.updateOrder(orderId, order);
+    }
+
+    /*@PostAuthorize("hasRole('ROLE_ADMIN')")*/
+    @GetMapping("/{orderId}")
+    public Order getOrderById(@PathVariable Long orderId)
+    {
         return orderRepository.findById(orderId).orElseThrow();
     }
 
@@ -57,11 +58,11 @@ public class OrderController {
         return null;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    /*@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{uuid}")
     public List<Order> getUserOrders(@PathVariable String uuid) {
         return orderRepository.findAllByUser_Uuid(uuid);
-    }
+    }*/
 
     @PostMapping("/{orderId}/payments")
     public Long getNewPaymentIdCreatedByPaymentType(@PathVariable Long orderId, @RequestBody Payment payment) {
